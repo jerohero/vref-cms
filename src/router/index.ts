@@ -31,6 +31,16 @@ const router = createRouter({
       path: '/ai',
       name: 'ai',
       component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/event-types',
+      name: 'event-types',
+      component: () => import('../views/AboutView.vue')
+    },
+    {
+      path: '/ecam-messages',
+      name: 'ecam-messages',
+      component: () => import('../views/AboutView.vue')
     }
   ]
 })

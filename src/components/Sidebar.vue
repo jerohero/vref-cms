@@ -8,24 +8,46 @@
 
   }>()
 
-  const activePath = ref<string>('')
+  const activeRoute = ref<string>('')
   const route = useRoute()
 
-  const items: ISidebarItem[] = [
+  const routes: ISidebarItem[] = [
     { name: 'Organizations', href: '/organizations', icon: 'people-outline' },
     { name: 'Users', href: '/users', icon: 'person-outline' },
-    { name: 'Trainings', href: '/trainings', icon: 'airplane-outline' },
-    { name: 'AI', href: '/ai', icon: 'hardware-chip-outline' },
+    { name: 'Trainings', href: '/trainings', icon: 'airplane-outline' }
   ]
+  const foldables: ISidebarItem[] = [
+    { name: 'AI', href: '/ai', icon: 'hardware-chip-outline', subItems: [
+        { name: 'Event Types', href: '/event-types' },
+        { name: 'ECAM Messages', href: '/ecam-messages' }
+      ]
+    },
+  ]
+  const signOutItem: ISidebarItem =
+      { name: 'Sign Out', href: '/', icon: 'log-out-outline', cb: () => { signOut() }}
+
+  const signOut = () => {
+    console.log('Signed out') // TODO
+  }
 
   watch(route, (from, to) => {
-    activePath.value = to.path
+    activeRoute.value = to.path
   })
 </script>
 
 <template>
-  <div class="bg-secondary w-[var(--sidebar-width)] h-full fixed pt-[var(--header-height)] mt-16 flex flex-col">
-    <SidebarItem v-for="item in items" :item="item" :active="activePath === item.href"/>
+  <div class="bg-secondary fixed pt-[var(--header-height)] flex flex-col justify-between
+              w-[var(--sidebar-width)] min-w-[15rem] h-full"
+  >
+    <div class="mt-16">
+      <RouterLink v-for="route in routes" :to="route.href">
+        <SidebarItem :item="route" :activeRoute="activeRoute"/>
+      </RouterLink>
+      <SidebarItem v-for="foldable in foldables" :item="foldable" :is-foldable="true"/>
+    </div>
+    <div class="mb-5">
+      <SidebarItem :item="signOutItem" :activeRoute="activeRoute"/>
+    </div>
   </div>
 </template>
 
