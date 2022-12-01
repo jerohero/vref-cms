@@ -43,10 +43,10 @@
       <RouterLink v-for="route in routes" :to="route.href">
         <SidebarItem :item="route" :activeRoute="activeRoute"/>
       </RouterLink>
-      <SidebarItem v-for="foldable in foldables" :item="foldable" :is-foldable="true"/>
+      <SidebarItem v-for="foldable in foldables" :item="foldable" :active-route="activeRoute" :is-foldable="true"/>
     </div>
     <div class="mb-5">
-      <SidebarItem :item="signOutItem" :activeRoute="activeRoute"/>
+      <SidebarItem :item="signOutItem"/>
     </div>
   </div>
 </template>
