@@ -1,23 +1,29 @@
 <script setup lang="ts">
-defineProps<{
-  item: ISidebarItem
+import {ref} from "vue";
+
+const props = defineProps<{
+  item: ISidebarItem,
+  active: boolean
 }>()
 
 export interface ISidebarItem {
   name: string,
+  href: string,
   icon: string
 }
 </script>
 
 <template>
-  <div class="flex py-3.5 pl-10 hover:bg-secondaryActive">
+  <RouterLink :to="item.href"
+              class="flex py-3.5 pl-10 hover:bg-secondaryActive"
+              :class="active ? 'bg-secondaryActive' : ''">
     <div class="mr-5">
       <ion-icon :name="item.icon" class="text-xl"/>
     </div>
     <p>
       {{item.name}}
     </p>
-  </div>
+  </RouterLink>
 </template>
 
 <style scoped>
