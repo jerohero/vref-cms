@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import Content from "@/components/Content.vue";
+import EntityTitle from "@/components/EntityTitle.vue";
+import EntityContent from "@/components/EntityContent.vue";
 </script>
 
 <template>
-  <div class="about">
-    <Content/>
+  <div class="mx-10 my-7">
+    <EntityTitle/>
+    <EntityContent/>
   </div>
 </template>
 
