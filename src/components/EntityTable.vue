@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import TableRow from "@/components/TableRow.vue";
 
-defineProps<{
-  data: any[],
-  columns: string[]
+const props = defineProps<{
+  columns: string[],
+  rows: any[]
 }>()
 </script>
 
@@ -24,7 +24,7 @@ defineProps<{
         </tr>
       </thead>
       <tbody class="text-textDark">
-        <TableRow v-for="row in data" v-bind:key="row.id" :row-data="row"/>
+        <TableRow v-for="row in rows" v-bind:key="row.id" :row-data="row"/>
       </tbody>
     </table>
   </div>
