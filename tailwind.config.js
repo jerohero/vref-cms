@@ -36,7 +36,9 @@ module.exports = {
         textDark: '#D0D0D0',
         textGrey: '#BBBBBB',
         line: '#525459',
-        lineDark: '#232323'
+        lineDark: '#232323',
+        edit: '#3498DB',
+        delete: '#E74C3C'
     }
   },
   plugins: [],

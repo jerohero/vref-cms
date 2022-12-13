@@ -9,9 +9,17 @@ defineProps<{
 
 <template>
   <div class="py-4 px-6 flex justify-between items-center">
-    <p>
-      429 results
-    </p>
+    <div>
+      <p class="text-sm text-text">
+        Showing
+        <span class="font-medium">1</span>
+        to
+        <span class="font-medium">10</span>
+        of
+        <span class="font-medium">97</span>
+        results
+      </p>
+    </div>
     <div class="flex gap-8">
       <Search/>
       <Button/>

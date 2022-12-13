@@ -9,7 +9,3 @@ defineProps<{
     Add new
   </button>
 </template>
-
-<style scoped>
-
-</style>

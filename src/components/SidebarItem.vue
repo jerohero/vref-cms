@@ -37,7 +37,7 @@ import { ref } from "vue";
          @click="onClick"
     >
       <div class="mr-5">
-        <ion-icon :name="item.icon" class="text-xl group-hover:animate-wiggle"/>
+        <ion-icon :name="item.icon" class="text-xl group-hover:animate-wiggle pointer-events-none"/>
       </div>
       <p>
         {{ item.name }}

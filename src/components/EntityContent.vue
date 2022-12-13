@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import TableTop from "@/components/TableTop.vue";
-import {onMounted, ref} from "vue";
 import EntityTable from "@/components/EntityTable.vue";
+import TableTop from "@/components/TableTop.vue";
+import Pagination from "@/components/Pagination.vue";
+import {onMounted, ref} from "vue";
 
 const props = defineProps<{
   fetchUrl: string,
@@ -32,6 +33,7 @@ onMounted(() => {
   <div class="bg-foreground rounded-[3px] text-text mt-5">
     <TableTop/>
     <EntityTable :data="data" :columns="columns"/>
+    <Pagination/>
   </div>
 </template>
 
