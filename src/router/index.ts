@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AuthView from '../views/AuthView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,6 +9,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: AuthView
     },
     {
       path: '/organizations',
@@ -43,6 +49,16 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     }
   ]
+})
+
+router.beforeEach((to, from) => {
+  let isAuthenticated = false;
+
+  if (!isAuthenticated && to.name !== 'auth') {
+    return { name: 'auth' }
+  }
+
+  return true
 })
 
 export default router

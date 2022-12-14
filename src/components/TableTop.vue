@@ -22,7 +22,7 @@ defineProps<{
     </div>
     <div class="flex gap-8">
       <Search/>
-      <Button/>
+      <Button text="Add new"/>
     </div>
   </div>
 </template>
