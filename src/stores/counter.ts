@@ -1,12 +1,20 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import axios from "axios";
 
 export const useCounterStore = defineStore('counter', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+  const user = ref(null)
+  const token = ref('')
+
+  const login = async (email: string, password: string) => {
+    const res = await axios.post('https://vrefsolutions-api.azurewebsites.net/api/user/login', {
+      email: email,
+      password: password
+    })
+
+    user.value = res.data.user
+    token.value = res.data.accessToken
   }
 
-  return { count, doubleCount, increment }
+  return { user, token, login }
 })
