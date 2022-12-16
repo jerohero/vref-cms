@@ -3,13 +3,14 @@
   import type { ISidebarItem } from '@/components/SidebarItem.vue';
   import {ref, watch} from "vue";
   import {useRoute} from "vue-router";
+  import {useUserStore} from "@/stores/user";
 
-  defineProps<{
+  defineProps<{ }>()
 
-  }>()
+  const route = useRoute()
+  const userStore = useUserStore();
 
   const activeRoute = ref<string>('')
-  const route = useRoute()
 
   const routes: ISidebarItem[] = [
     { name: 'Organizations', href: '/organizations', icon: 'people-outline' },
@@ -27,7 +28,7 @@
       { name: 'Sign Out', href: '/', icon: 'log-out-outline', cb: () => { signOut() }}
 
   const signOut = () => {
-    console.log('Signed out') // TODO
+    userStore.logout()
   }
 
   watch(route, (from, to) => {

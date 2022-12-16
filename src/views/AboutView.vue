@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import EntityTitle from "@/components/EntityTitle.vue";
 import EntityContent from "@/components/EntityContent.vue";
+import {useUserStore} from "@/stores/user";
 
 interface Training {
   id: number,
@@ -10,8 +11,10 @@ interface Training {
   date: string
 }
 
+const userStore = useUserStore()
+
 const title = 'Trainings'
-const organization = 'KLM Flight Academy'
+const organization = userStore.user.organization.name
 
 const columns = [
   'Status', 'Instructor', 'Students', 'Date'

@@ -9,8 +9,10 @@ const userStore = useUserStore()
 </script>
 
 <template>
-  <Header v-if="userStore.isAuthenticated"/>
-  <Sidebar v-if="userStore.isAuthenticated"/>
+  <div v-if="userStore.isAuthenticated">
+    <Header/>
+    <Sidebar/>
+  </div>
   <div
       class="text-text"
       :class="userStore.isAuthenticated && 'pl-[var(--sidebar-width)] pt-[var(--header-height)]'"

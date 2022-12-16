@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import axios from "axios";
 import {computed, ref} from 'vue'
 import type { Ref, ComputedRef } from 'vue';
+import {useRouter} from "vue-router";
 
 interface User {
   id: number,
@@ -16,15 +17,19 @@ interface State {
   user: Ref<User>,
   token: Ref<string>,
   isAuthenticated: ComputedRef<boolean>,
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<void>,
+  logout: () => void
+}
+
+const emptyUser = {
+  id: 0, email: '', firstName: '', lastName: '', organization: '', userType: ''
 }
 
 export const useUserStore = defineStore('user', (): State => {
-  const user = ref<User>({
-    id: 0, email: '', firstName: '', lastName: '', organization: '', userType: ''
-  })
+  const user = ref<User>(emptyUser)
   const token = ref<string>('')
   const isAuthenticated = computed(() => !!token.value)
+  const router = useRouter()
 
   const login = async (email: string, password: string) => {
     const res = await axios.post('https://vrefsolutions-api.azurewebsites.net/api/user/login', {
@@ -36,10 +41,17 @@ export const useUserStore = defineStore('user', (): State => {
     token.value = res.data.accessToken
   }
 
+  const logout = () => {
+    user.value = emptyUser
+    token.value = ''
+    router.push({ path: '/auth' })
+   }
+
   return {
     user,
     token,
     isAuthenticated,
-    login
+    login,
+    logout
   }
 })
