@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import Button from '@/components/Button.vue'
+import CustomButton from '@/components/CustomButton.vue'
 import FormItem from '@/components/FormItem.vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
@@ -32,19 +32,8 @@ const login = () => {
                     label="Password" name="password"
                     type="password" autocomplete="current-password"
           />
-          <div class="flex items-center justify-between">
-            <div class="flex items-center">
-              <input id="remember-me" name="remember-me" type="checkbox"
-                     class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-              />
-              <label for="remember-me" class="ml-2 block text-sm text-gray-900">
-                Remember me
-              </label>
-            </div>
-          </div>
-
-          <div>
-            <Button text="Sign in" type="submit" full-width />
+          <div class="pt-3">
+            <CustomButton text="Sign in" type="submit" full-width />
           </div>
         </form>
       </div>

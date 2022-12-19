@@ -17,6 +17,7 @@ interface State {
   user: Ref<User>,
   token: Ref<string>,
   isAuthenticated: ComputedRef<boolean>,
+  bearerToken: ComputedRef<string>,
   login: (email: string, password: string) => Promise<void>,
   logout: () => void
 }
@@ -29,6 +30,7 @@ export const useUserStore = defineStore('user', (): State => {
   const user = ref<User>(emptyUser)
   const token = ref<string>('')
   const isAuthenticated = computed(() => !!token.value)
+  const bearerToken = computed(() => `Bearer ${ token.value }`)
   const router = useRouter()
 
   const login = async (email: string, password: string) => {
@@ -51,6 +53,7 @@ export const useUserStore = defineStore('user', (): State => {
     user,
     token,
     isAuthenticated,
+    bearerToken,
     login,
     logout
   }

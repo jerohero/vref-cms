@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Button from "@/components/Button.vue";
+import CustomButton from "@/components/CustomButton.vue";
 import Search from "@/components/Search.vue";
 
 defineProps<{
@@ -22,7 +22,7 @@ defineProps<{
     </div>
     <div class="flex gap-8">
       <Search/>
-      <Button text="Add new"/>
+      <CustomButton text="Add new"/>
     </div>
   </div>
 </template>

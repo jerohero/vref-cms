@@ -3,7 +3,8 @@ import TableRow from "@/components/TableRow.vue";
 
 const props = defineProps<{
   columns: string[],
-  rows: any[]
+  rows: any[],
+  isFetching: boolean
 }>()
 </script>
 
@@ -24,7 +25,11 @@ const props = defineProps<{
         </tr>
       </thead>
       <tbody class="text-textDark">
-        <TableRow v-for="row in rows" v-bind:key="row.id" :row-data="row"/>
+        <TableRow v-if="!isFetching"
+                  v-for="row in rows"
+                  v-bind:key="row.id"
+                  :row-data="row"
+        />
       </tbody>
     </table>
   </div>

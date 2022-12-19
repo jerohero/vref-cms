@@ -3,6 +3,8 @@ import EntityTable from "@/components/EntityTable.vue";
 import TableTop from "@/components/TableTop.vue";
 import Pagination from "@/components/Pagination.vue";
 import {onMounted, ref} from "vue";
+import axios from "axios";
+import {useUserStore} from "@/stores/user";
 
 const props = defineProps<{
   fetchUrl: string,
@@ -10,16 +12,22 @@ const props = defineProps<{
   getRowObject(values: any): any
 }>()
 
-const rows = ref<any[]>()
+const userStore = useUserStore()
+
+const rows = ref<any[]>([])
+const isFetching = ref<boolean>(false)
 
 const fetch = async () => {
   if (props.fetchUrl) {
-    const values = [
-      { id: 1, status: 'Processing', instructor: { name: 'Jakob Schuurhuis' }, students: [{ name: 'Tim Sanou' }, { name: 'Burak Ucar' }], date: '24/11/2022' },
-      { id: 2, status: 'Processing', instructor: { name: 'Jakob Schuurhuis' }, students: [{ name: 'Tim Sanou' }, { name: 'Burak Ucar' }], date: '24/11/2022' }
-    ]
+    isFetching.value = true
 
-    return dataToRows(values)
+    const res = await axios.get(props.fetchUrl, {
+      headers: { 'Authorization': userStore.bearerToken }
+    })
+
+    isFetching.value = false
+
+    return dataToRows(res.data)
   }
 
   return []
@@ -48,6 +56,7 @@ onMounted(() => {
     <EntityTable
         :columns="columns"
         :rows="rows"
+        :is-fetching="isFetching"
     />
     <Pagination/>
   </div>
