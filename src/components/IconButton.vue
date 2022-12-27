@@ -22,10 +22,11 @@ if (props.isEdit) {
 </script>
 
 <template>
-  <div @click="onClick" class="group cursor-pointer">
+  <div @click="onClick" class="group cursor-pointer flex justify-center items-center">
     <ion-icon :name="icon"
               class="transition-colors pointer-events-none"
               :class="color"
+              aria-hidden="true"
     />
   </div>
 </template>

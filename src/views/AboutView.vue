@@ -28,23 +28,30 @@ const getRowObject = (training: any): any => {
   return {
     id: {
       display: training.id,
-      value: training.id
+      value: training.id,
+      editable: false,
     },
     status: {
       display: training.status,
-      value: training.status
+      value: training.status,
+      editable: false,
     },
     instructor: {
       display: `${ training.instructor?.firstName } ${ training.instructor?.lastName }`,
-      value: training.instructor
+      value: training.instructor,
+      editable: true,
+      editType: 'search-single'
     },
     students: {
       display: training.students?.map((student: any) => `${ student?.firstName } ${ student?.lastName }`),
-      value: training.students
+      value: training.students,
+      editable: true,
+      editType: 'search-multiple'
     },
     date: {
       display: trainingDate.format('DD-MM-YYYY HH:mm'),
-      value: trainingDate
+      value: trainingDate,
+      editable: false,
     }
   }
 }
