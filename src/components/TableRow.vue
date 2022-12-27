@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import IconButton from "@/components/IconButton.vue";
+import IconButton from '@/components/IconButton.vue'
+import { ref } from 'vue'
 
 const props = defineProps<{
   rowData: any
 }>()
+
+const isEditing = ref<boolean>()
 
 const getDisplayValue = (rowKey: any) => {
   if (Array.isArray(rowKey.display)) {
@@ -18,6 +21,18 @@ const getRowDataWithoutId = () => {
 
   return withoutId
 }
+
+const onEdit = () => {
+  isEditing.value = true
+}
+
+const onSave = () => {
+  isEditing.value = false
+}
+
+const onDelete = () => {
+
+}
 </script>
 
 <template>
@@ -28,9 +43,14 @@ const getRowDataWithoutId = () => {
     <td v-for="rowKey in getRowDataWithoutId()" v-bind:key="rowKey" class="py-5 px-6">
       {{ getDisplayValue(rowKey) }}
     </td>
-    <td class="py-5 px-6 flex gap-2 text-xl">
-      <IconButton icon="pencil-outline" color="text-edit"/>
-      <IconButton icon="trash-outline" color="text-delete"/>
+    <td class="py-5 px-6 text-xl">
+      <div v-if="isEditing">
+        <IconButton :on-click="onSave" is-save class="text-2xl" />
+      </div>
+      <div v-else class="flex gap-2">
+        <IconButton :on-click="onEdit" is-edit />
+        <IconButton :on-click="onDelete" is-delete />
+      </div>
     </td>
   </tr>
 </template>

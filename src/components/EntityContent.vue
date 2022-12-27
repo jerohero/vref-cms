@@ -52,11 +52,13 @@ onMounted(() => {
 
 <template>
   <div class="bg-foreground rounded-[3px] text-text mt-5">
-    <TableTop/>
+    <TableTop
+      :results-length="rows.length"
+    />
     <EntityTable
-        :columns="columns"
-        :rows="rows"
-        :is-fetching="isFetching"
+      :columns="columns"
+      :rows="rows"
+      :is-fetching="isFetching"
     />
     <Pagination/>
   </div>

@@ -38,7 +38,8 @@ module.exports = {
         line: '#525459',
         lineDark: '#232323',
         edit: '#3498DB',
-        delete: '#E74C3C'
+        delete: '#E74C3C',
+        save: '#2ECC71'
     }
   },
   plugins: [],

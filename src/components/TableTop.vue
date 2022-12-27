@@ -3,7 +3,7 @@ import CustomButton from "@/components/CustomButton.vue";
 import Search from "@/components/Search.vue";
 
 defineProps<{
-
+  resultsLength: number
 }>()
 </script>
 
@@ -16,7 +16,9 @@ defineProps<{
         to
         <span class="font-medium">10</span>
         of
-        <span class="font-medium">97</span>
+        <span class="font-medium">
+          {{ resultsLength }}
+        </span>
         results
       </p>
     </div>
