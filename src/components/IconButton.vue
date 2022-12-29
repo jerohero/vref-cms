@@ -2,8 +2,9 @@
 const props = defineProps<{
   onClick: () => void,
   isEdit?: boolean,
-  isDelete?: boolean
-  isSave?: boolean
+  isDelete?: boolean,
+  isSave?: boolean,
+  isCancel?: boolean
 }>()
 
 let icon = '';
@@ -18,6 +19,9 @@ if (props.isEdit) {
 } else if (props.isSave) {
   icon = 'checkmark-outline'
   color = 'group-hover:text-save'
+} else if (props.isCancel) {
+  icon = 'close-outline'
+  color = 'group-hover:text-delete'
 }
 </script>
 

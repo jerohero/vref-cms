@@ -66,7 +66,7 @@
               <span class="truncate" :class="selected && 'font-semibold'">
                 {{ person.firstName }} {{ person.lastName }}
               </span>
-              <span class="ml-2 mr-2 truncate text-[0.6rem] text-line">
+              <span class="ml-2 mr-2 truncate text-[0.5rem] text-line">
                 {{ person.email }}
               </span>
             </div>

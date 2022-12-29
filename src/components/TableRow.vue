@@ -2,12 +2,14 @@
 import IconButton from '@/components/IconButton.vue'
 import { ref } from 'vue'
 import InputSearchSingle from "@/components/InputSearchSingle.vue";
+import ConfirmationModal from "@/components/ConfirmationModal.vue";
 
 const props = defineProps<{
   rowData: any
 }>()
 
 const isEditing = ref<boolean>()
+const isDeleting = ref<boolean>()
 
 const getDisplayValue = (rowKey: any) => {
   if (Array.isArray(rowKey.display)) {
@@ -37,8 +39,20 @@ const onSave = () => {
   isEditing.value = false
 }
 
-const onDelete = () => {
+const onCancel = () => {
+  isEditing.value = false
+}
 
+const onDelete = () => {
+  isDeleting.value = true
+}
+
+const onDeleteCancel = () => {
+  isDeleting.value = false
+}
+
+const onDeleteConfirm = () => {
+  isDeleting.value = false
 }
 </script>
 
@@ -65,16 +79,26 @@ const onDelete = () => {
          SINGLE
       </InputSearchSingle>
     </td>
-    <td class="px-6 text-xl">
-      <div v-if="isEditing">
-        <IconButton :on-click="onSave" is-save class="text-2xl" />
+    <td class="px-6 text-xl select-none">
+      <div v-if="isEditing" class="flex gap-1">
+        <IconButton :on-click="onSave" is-save class="text-3xl" />
+        <IconButton :on-click="onCancel" is-cancel class="text-3xl" />
       </div>
-      <div v-else class="flex gap-2">
-        <IconButton :on-click="onEdit" is-edit />
-        <IconButton :on-click="onDelete" is-delete />
+      <div v-else class="flex gap-3">
+        <IconButton :on-click="onEdit" is-edit class="text-2xl" />
+        <IconButton :on-click="onDelete" is-delete class="text-2xl" />
       </div>
     </td>
   </tr>
+  <ConfirmationModal
+      v-if="isDeleting"
+      :onCancel="onDeleteCancel"
+      :onConfirm="onDeleteConfirm"
+      title="Delete training"
+      type="alert"
+      content="Are you sure you want to delete this training? This action cannot be undone."
+      confirm-text="Delete"
+  />
 </template>
 
 <style scoped>

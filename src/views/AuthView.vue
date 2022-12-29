@@ -33,7 +33,7 @@ const login = () => {
                     type="password" autocomplete="current-password"
           />
           <div class="pt-3">
-            <CustomButton text="Sign in" type="submit" full-width />
+            <CustomButton text="Sign in" type="submit" full-width is-primary />
           </div>
         </form>
       </div>

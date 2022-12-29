@@ -29,6 +29,7 @@ module.exports = {
         backgroundDark: '#262A31',
         foreground: '#292B32',
         primary: '#A003F8',
+        primaryDark: '#9B02F0',
         secondary: '#3342CB',
         secondaryActive: '#263AA6',
         secondaryHover: '#2D3BC1',
