@@ -1,17 +1,17 @@
 <script setup lang="ts">
-  const props = defineProps<{
-    rowItem: any
-  }>()
-
   import { computed, ref } from 'vue'
   import {
     Combobox,
     ComboboxButton,
     ComboboxInput,
-    ComboboxLabel,
     ComboboxOption,
     ComboboxOptions,
   } from '@headlessui/vue'
+
+  const props = defineProps<{
+    rowItem: any,
+    multiple: boolean
+  }>()
 
   const people = [
     { firstName: 'Jin', lastName: 'Jan', email: 'instructor@outlook.com', id: 2, organization: {}, userType: 'Instructor' },
@@ -21,7 +21,7 @@
   ]
 
   const query = ref('')
-  const selectedPerson = ref(props.rowItem.value)
+  const selectedPerson = ref(props.multiple ? [props.rowItem.value] : props.rowItem.value)
   const filteredPeople = computed(() =>
       query.value === ''
           ? people
@@ -32,15 +32,23 @@
           })
   )
 
+  const getDisplayValue = (input: any) => {
+    if (props.multiple) {
+      return input.map((person: any) => `${ person?.firstName } ${ person?.lastName }`).join(', ')
+    }
+
+    return `${ input?.firstName } ${ input?.lastName }`
+  }
+
   console.log(props.rowItem)
 </script>
 
 <template>
-  <Combobox as="div" v-model="selectedPerson">
+  <Combobox as="div" v-model="selectedPerson" :multiple="multiple">
     <div class="relative mt-1">
       <ComboboxInput
           @change="query = $event.target.value"
-          :display-value="(person) => `${ person?.firstName } ${ person?.lastName }`"
+          :display-value="(person) => getDisplayValue(person)"
           class="w-full bg-foreground border border-text text-sm rounded-md py-2 pl-3 pr-10 focus:border-indigo-500
           focus:outline-none focus:ring-1 focus:ring-indigo-500"
       />

@@ -3,6 +3,7 @@ import IconButton from '@/components/IconButton.vue'
 import { ref } from 'vue'
 import InputSearchSingle from "@/components/InputSearchSingle.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
+import InputSearchMulti from "@/components/InputSearchMulti.vue";
 
 const props = defineProps<{
   rowData: any
@@ -66,18 +67,15 @@ const onDeleteConfirm = () => {
         {{ getDisplayValue(rowKey) }}
       </span>
       <!-- Do if multiple items -->
-      <span v-else-if="rowKey.editType === 'search-multiple'"
-            v-for="valueItem in rowKey.display"
-            class=""
-      >
-         MULTIPLE
-      </span>
+      <InputSearchMulti
+          v-else-if="rowKey.editType === 'search-multiple'"
+          :row-item="rowKey"
+          max-items="2"
+      />
       <InputSearchSingle
           v-else-if="rowKey.editType === 'search-single'"
           :rowItem="rowKey"
-      >
-         SINGLE
-      </InputSearchSingle>
+      />
     </td>
     <td class="px-6 text-xl select-none">
       <div v-if="isEditing" class="flex gap-1">
