@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import IconButton from '@/components/IconButton.vue'
 import { ref } from 'vue'
-import InputSearchSingle from "@/components/InputSearchSingle.vue";
+import InputCombobox from "@/components/InputCombobox.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import InputSearchMulti from "@/components/InputSearchMulti.vue";
 
 const props = defineProps<{
   rowData: any
@@ -67,12 +66,14 @@ const onDeleteConfirm = () => {
         {{ getDisplayValue(rowKey) }}
       </span>
       <!-- Do if multiple items -->
-      <InputSearchMulti
+      <InputCombobox
           v-else-if="rowKey.editType === 'search-multiple'"
           :row-item="rowKey"
+          multiple
+          min-items="2"
           max-items="2"
       />
-      <InputSearchSingle
+      <InputCombobox
           v-else-if="rowKey.editType === 'search-single'"
           :rowItem="rowKey"
       />

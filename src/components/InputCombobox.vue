@@ -10,23 +10,30 @@
 
   const props = defineProps<{
     rowItem: any,
-    multiple: boolean
+    multiple?: boolean,
+    maxItems?: number,
+    minItems?: number
   }>()
 
-  const people = [
+  const values = [
     { firstName: 'Jin', lastName: 'Jan', email: 'instructor@outlook.com', id: 2, organization: {}, userType: 'Instructor' },
     { firstName: 'Alexander', lastName: 'van den Hoofd', email: 'email_with_long_name792.company@outlook.com', id: 3, organization: {}, userType: 'Instructor' },
     { firstName: 'Persoon', lastName: 'Piloot', email: 'a@outlook.com', id: 5, organization: {}, userType: 'Instructor' },
-      props.rowItem.value
+      props.rowItem.value[0],
+      props.rowItem.value[1],
   ]
 
+  const isAdding = ref<boolean>()
+  const isUnderMax = computed(() => props.maxItems ? props.rowItem.display.length < props.maxItems : true)
+  const isOverMin = computed(() => props.minItems ? props.rowItem.display.length >= props.minItems : true)
+
   const query = ref('')
-  const selectedPerson = ref(props.multiple ? [props.rowItem.value] : props.rowItem.value)
-  const filteredPeople = computed(() =>
+  const selected = ref(props.multiple ? [props.rowItem.value[0], props.rowItem.value[1]] : props.rowItem.value)
+  const filtered = computed(() =>
       query.value === ''
-          ? people
-          : people.filter((person) => {
-            const queryable = `${ person.firstName } ${ person.lastName } ${ person.email }`
+          ? values
+          : values.filter((value) => {
+            const queryable = `${ value.firstName } ${ value.lastName } ${ value.email }`
 
             return queryable.toLowerCase().includes(query.value.toLowerCase())
           })
@@ -44,7 +51,7 @@
 </script>
 
 <template>
-  <Combobox as="div" v-model="selectedPerson" :multiple="multiple">
+  <Combobox as="div" v-model="selected" :multiple="multiple">
     <div class="relative mt-1">
       <ComboboxInput
           @change="query = $event.target.value"
@@ -57,11 +64,11 @@
       </ComboboxButton>
 
       <ComboboxOptions
-          v-if="filteredPeople.length > 0"
+          v-if="filtered.length > 0"
           class="absolute bg-background z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base
                 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
       >
-        <ComboboxOption v-for="person in filteredPeople"
+        <ComboboxOption v-for="person in filtered"
                         :key="person.email"
                         :value="person"
                         as="template"
