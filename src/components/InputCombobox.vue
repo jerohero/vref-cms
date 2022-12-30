@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, ref } from 'vue'
+import {computed, ref, watch} from 'vue'
   import {
     Combobox,
     ComboboxButton,
@@ -7,6 +7,7 @@
     ComboboxOption,
     ComboboxOptions,
   } from '@headlessui/vue'
+import {useToast} from "vue-toastification";
 
   const props = defineProps<{
     rowItem: any,
@@ -23,9 +24,7 @@
 
   if (props.multiple) values.push(props.rowItem.value[0], props.rowItem.value[1])
 
-  const isAdding = ref<boolean>()
-  const isUnderMax = computed(() => props.maxItems ? props.rowItem.display.length < props.maxItems : true)
-  const isOverMin = computed(() => props.minItems ? props.rowItem.display.length >= props.minItems : true)
+  const toast = useToast()
 
   const query = ref('')
   const selected = ref(props.multiple ? [props.rowItem.value[0], props.rowItem.value[1]] : props.rowItem.value)
@@ -39,10 +38,24 @@
           })
   )
 
+  const isOverMax = computed(() => props.maxItems ? selected.value.length > props.maxItems : false)
+  const isUnderMin = computed(() => props.minItems ? selected.value.length < props.minItems : false)
+
+  watch(isUnderMin, (from, to) => {
+    if (to) return
+
+    toast.warning(`This field has a minimum of ${ props.minItems } values!`)
+  })
+
+  watch(isOverMax, (from, to) => {
+    if (to) return
+
+    toast.warning(`This field has a maximum of ${ props.minItems } values!`)
+  })
+
   const getDisplayValue = (input: any) => {
     if (props.multiple) {
       return input.map((person: any) => `${ person?.firstName } ${ person?.lastName }`).join(', ')
-      // return query.value
     }
 
     return `${ input?.firstName } ${ input?.lastName }`

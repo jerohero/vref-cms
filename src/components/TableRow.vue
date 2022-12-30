@@ -70,8 +70,8 @@ const onDeleteConfirm = () => {
           v-else-if="rowKey.editType === 'search-multiple'"
           :row-item="rowKey"
           multiple
-          min-items="2"
-          max-items="2"
+          :min-items="2"
+          :max-items="2"
       />
       <InputCombobox
           v-else-if="rowKey.editType === 'search-single'"
