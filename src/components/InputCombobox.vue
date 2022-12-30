@@ -19,9 +19,9 @@
     { firstName: 'Jin', lastName: 'Jan', email: 'instructor@outlook.com', id: 2, organization: {}, userType: 'Instructor' },
     { firstName: 'Alexander', lastName: 'van den Hoofd', email: 'email_with_long_name792.company@outlook.com', id: 3, organization: {}, userType: 'Instructor' },
     { firstName: 'Persoon', lastName: 'Piloot', email: 'a@outlook.com', id: 5, organization: {}, userType: 'Instructor' },
-      props.rowItem.value[0],
-      props.rowItem.value[1],
   ]
+
+  if (props.multiple) values.push(props.rowItem.value[0], props.rowItem.value[1])
 
   const isAdding = ref<boolean>()
   const isUnderMax = computed(() => props.maxItems ? props.rowItem.display.length < props.maxItems : true)
@@ -42,6 +42,7 @@
   const getDisplayValue = (input: any) => {
     if (props.multiple) {
       return input.map((person: any) => `${ person?.firstName } ${ person?.lastName }`).join(', ')
+      // return query.value
     }
 
     return `${ input?.firstName } ${ input?.lastName }`
@@ -55,10 +56,18 @@
     <div class="relative mt-1">
       <ComboboxInput
           @change="query = $event.target.value"
-          :display-value="(person) => getDisplayValue(person)"
+          :display-value="(person) => multiple ? query : getDisplayValue(person)"
           class="w-full bg-foreground border border-text text-sm rounded-md py-2 pl-3 pr-10 focus:border-indigo-500
           focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          :title="getDisplayValue(selected)"
       />
+      <span
+          v-if="multiple && !query"
+          class="absolute left-0 py-2 pl-3 pr-10 text-textGrey select-none pointer-events-none whitespace-nowrap
+                text-ellipsis w-full overflow-hidden"
+      >
+        {{ getDisplayValue(selected) }}
+      </span>
       <ComboboxButton class="absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 focus:outline-none">
         <ion-icon name="code-outline" class="h-4 w-4 text-gray-400 rotate-90" aria-hidden="true"/>
       </ComboboxButton>
