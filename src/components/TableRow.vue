@@ -78,12 +78,12 @@ const onDeleteConfirm = () => {
           :rowItem="rowKey"
       />
     </td>
-    <td class="px-6 text-xl select-none">
-      <div v-if="isEditing" class="flex gap-1">
+    <td class="px-6 text-xl select-none relative">
+      <div v-if="isEditing" class="flex gap-1 justify-end">
         <IconButton :on-click="onSave" is-save class="text-3xl" />
         <IconButton :on-click="onCancel" is-cancel class="text-3xl" />
       </div>
-      <div v-else class="flex gap-3">
+      <div v-else class="flex gap-3 justify-end">
         <IconButton :on-click="onEdit" is-edit class="text-2xl" />
         <IconButton :on-click="onDelete" is-delete class="text-2xl" />
       </div>

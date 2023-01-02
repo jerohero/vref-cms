@@ -17,38 +17,38 @@ const router = createRouter({
     },
     {
       path: '/organizations',
-      name: 'about',
-      component: () => import('../views/AboutView.vue'),
+      name: 'organizations',
+      component: () => import('../views/OrganizationsView.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/users',
       name: 'users',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/TrainingsView.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/trainings',
       name: 'trainings',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/TrainingsView.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/ai',
       name: 'ai',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/TrainingsView.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/event-types',
       name: 'event-types',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/TrainingsView.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/ecam-messages',
       name: 'ecam-messages',
-      component: () => import('../views/AboutView.vue'),
+      component: () => import('../views/TrainingsView.vue'),
       meta: { requiresAuth: true }
     }
   ]

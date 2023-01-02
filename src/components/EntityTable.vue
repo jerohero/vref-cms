@@ -19,8 +19,10 @@ const props = defineProps<{
           <th v-for="col in columns" v-bind:key="col" scope="col" class="py-5 px-6">
             {{ col }}
           </th>
-          <th scope="col" class="py-5 px-6">
-            Actions
+          <th scope="col" class="py-5 px-6 text-right relative">
+            <span class="sr-only">
+              Actions
+            </span>
           </th>
         </tr>
       </thead>
