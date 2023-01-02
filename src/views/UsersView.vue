@@ -60,7 +60,7 @@ const getRowObject = (training: any): any => {
 </script>
 
 <template>
-  <div class="mx-10 my-7">
+  <div class="mx-10 my-7 min-h-full">
     <EntityTitle
         :title="title"
         :organization="organization"

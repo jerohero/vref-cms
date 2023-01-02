@@ -14,7 +14,7 @@ const userStore = useUserStore()
     <Sidebar/>
   </div>
   <div
-      class="text-text"
+      class="text-text min-h-screen"
       :class="userStore.isAuthenticated && 'pl-[var(--sidebar-width)] pt-[var(--header-height)]'"
   >
     <RouterView/>
