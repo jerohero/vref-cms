@@ -5,6 +5,7 @@ import Pagination from "@/components/Pagination.vue";
 import {onMounted, ref} from "vue";
 import axios from "axios";
 import {useUserStore} from "@/stores/user";
+import {useToast} from "vue-toastification";
 
 const props = defineProps<{
   fetchUrl: string,
@@ -13,6 +14,7 @@ const props = defineProps<{
 }>()
 
 const userStore = useUserStore()
+const toast = useToast()
 
 const rows = ref<any[]>([])
 const isFetching = ref<boolean>(false)
@@ -21,13 +23,19 @@ const fetch = async () => {
   if (props.fetchUrl) {
     isFetching.value = true
 
-    const res = await axios.get(props.fetchUrl, {
-      headers: { 'Authorization': userStore.bearerToken }
-    })
+    try {
+      const res = await axios.get(props.fetchUrl, {
+        headers: { 'Authorization': userStore.bearerToken }
+      })
 
-    isFetching.value = false
+      isFetching.value = false
 
-    return dataToRows(res.data)
+      return dataToRows(res.data)
+    } catch (e: any) {
+      isFetching.value = false
+
+      toast.error(e.response.statusText)
+    }
   }
 
   return []
