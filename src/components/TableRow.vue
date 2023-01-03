@@ -3,6 +3,7 @@
   import { ref } from 'vue'
   import ConfirmationModal from '@/components/ConfirmationModal.vue'
   import ColumnInput from '@/components/ColumnInput.vue'
+  import ColumnCombobox from '@/components/ColumnCombobox.vue'
 
   const props = defineProps<{
     rowData: any
@@ -66,15 +67,19 @@
         {{ getDisplayValue(rowKey) }}
       </span>
       <!-- Do if multiple items -->
-      <ColumnInput
+      <ColumnCombobox
           v-else-if="rowKey.editType === 'search-multiple'"
           :row-item="rowKey"
           multiple
           :min-items="2"
           :max-items="2"
       />
-      <ColumnInput
+      <ColumnCombobox
           v-else-if="rowKey.editType === 'search-single'"
+          :rowItem="rowKey"
+      />
+      <ColumnInput
+          v-else-if="rowKey.editType === 'input-text'"
           :rowItem="rowKey"
       />
     </td>
