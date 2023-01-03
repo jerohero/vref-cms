@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-  import CustomButton from "@/components/CustomButton.vue";
+  import CustomButton from '@/components/CustomButton.vue'
 
   const props = defineProps<{
     onConfirm: () => void,

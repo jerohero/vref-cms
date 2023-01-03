@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import SidebarItem from '@/components/SidebarItem.vue';
-  import type { ISidebarItem } from '@/components/SidebarItem.vue';
-  import {ref, watch} from "vue";
-  import {useRoute} from "vue-router";
-  import {useUserStore} from "@/stores/user";
+  import SidebarItem from '@/components/SidebarItem.vue'
+  import type { ISidebarItem } from '@/components/SidebarItem.vue'
+  import { ref, watch } from 'vue'
+  import { useRoute } from 'vue-router'
+  import { useUserStore } from '@/stores/user'
 
   defineProps<{ }>()
 

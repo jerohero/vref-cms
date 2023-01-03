@@ -1,28 +1,28 @@
 <script setup lang="ts">
-const props = defineProps<{
-  onClick: () => void,
-  isEdit?: boolean,
-  isDelete?: boolean,
-  isSave?: boolean,
-  isCancel?: boolean
-}>()
+  const props = defineProps<{
+    onClick: () => void,
+    isEdit?: boolean,
+    isDelete?: boolean,
+    isSave?: boolean,
+    isCancel?: boolean
+  }>()
 
-let icon = '';
-let color = '';
+  let icon = '';
+  let color = '';
 
-if (props.isEdit) {
-  icon = 'pencil-outline'
-  color = 'group-hover:text-edit'
-} else if (props.isDelete) {
-  icon = 'trash-outline'
-  color = 'group-hover:text-delete'
-} else if (props.isSave) {
-  icon = 'checkmark-outline'
-  color = 'group-hover:text-save'
-} else if (props.isCancel) {
-  icon = 'close-outline'
-  color = 'group-hover:text-delete'
-}
+  if (props.isEdit) {
+    icon = 'pencil-outline'
+    color = 'group-hover:text-edit'
+  } else if (props.isDelete) {
+    icon = 'trash-outline'
+    color = 'group-hover:text-delete'
+  } else if (props.isSave) {
+    icon = 'checkmark-outline'
+    color = 'group-hover:text-save'
+  } else if (props.isCancel) {
+    icon = 'close-outline'
+    color = 'group-hover:text-delete'
+  }
 </script>
 
 <template>

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import CustomButton from "@/components/CustomButton.vue";
-import Search from "@/components/Search.vue";
+  import CustomButton from '@/components/CustomButton.vue'
+  import Search from '@/components/Search.vue'
 
-defineProps<{
-  resultsLength: number
-}>()
+  defineProps<{
+    resultsLength: number
+  }>()
 </script>
 
 <template>

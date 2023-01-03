@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import Header from './components/Header.vue'
-import Sidebar from '@/components/Sidebar.vue'
-import { useUserStore } from '@/stores/user'
+  import { RouterView } from 'vue-router'
+  import Header from './components/Header.vue'
+  import Sidebar from '@/components/Sidebar.vue'
+  import { useUserStore } from '@/stores/user'
 
-const userStore = useUserStore()
-
+  const userStore = useUserStore()
 </script>
 
 <template>

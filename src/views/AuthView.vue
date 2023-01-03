@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import CustomButton from '@/components/CustomButton.vue'
-import FormItem from '@/components/FormItem.vue'
-import { useUserStore } from '@/stores/user'
-import { useRouter } from 'vue-router'
+  import { ref } from 'vue'
+  import CustomButton from '@/components/CustomButton.vue'
+  import FormItem from '@/components/FormItem.vue'
+  import { useUserStore } from '@/stores/user'
+  import { useRouter } from 'vue-router'
 
-const email = ref<string>('')
-const password = ref<string>('')
+  const email = ref<string>('')
+  const password = ref<string>('')
 
-const userStore = useUserStore()
-const router = useRouter()
+  const userStore = useUserStore()
+  const router = useRouter()
 
-const login = () => {
-  userStore.login(email.value, password.value).then(() => {
-    router.push({ path: '/' })
-  })
-}
+  const login = () => {
+    userStore.login(email.value, password.value).then(() => {
+      router.push({ path: '/' })
+    })
+  }
 </script>
 
 <template>

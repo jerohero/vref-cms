@@ -1,59 +1,59 @@
 <script setup lang="ts">
-import IconButton from '@/components/IconButton.vue'
-import { ref } from 'vue'
-import InputCombobox from "@/components/InputCombobox.vue";
-import ConfirmationModal from "@/components/ConfirmationModal.vue";
+  import IconButton from '@/components/IconButton.vue'
+  import { ref } from 'vue'
+  import ConfirmationModal from '@/components/ConfirmationModal.vue'
+  import ColumnInput from '@/components/ColumnInput.vue'
 
-const props = defineProps<{
-  rowData: any
-}>()
+  const props = defineProps<{
+    rowData: any
+  }>()
 
-const isEditing = ref<boolean>()
-const isDeleting = ref<boolean>()
+  const isEditing = ref<boolean>()
+  const isDeleting = ref<boolean>()
 
-const getDisplayValue = (rowKey: any) => {
-  if (Array.isArray(rowKey.display)) {
-    return rowKey.display.join(', ')
+  const getDisplayValue = (rowKey: any) => {
+    if (Array.isArray(rowKey.display)) {
+      return rowKey.display.join(', ')
+    }
+
+    return rowKey?.display
   }
 
-  return rowKey?.display
-}
+  const getEditBoxes = (rowKey: any) => {
+    for (const rowKeyElement of rowKey) {
 
-const getEditBoxes = (rowKey: any) => {
-  for (const rowKeyElement of rowKey) {
-
+    }
   }
-}
 
-const getRowDataWithoutId = () => {
-  let {id, ...withoutId} = props.rowData;
+  const getRowDataWithoutId = () => {
+    let {id, ...withoutId} = props.rowData;
 
-  return withoutId
-}
+    return withoutId
+  }
 
-const onEdit = () => {
-  isEditing.value = true
-}
+  const onEdit = () => {
+    isEditing.value = true
+  }
 
-const onSave = () => {
-  isEditing.value = false
-}
+  const onSave = () => {
+    isEditing.value = false
+  }
 
-const onCancel = () => {
-  isEditing.value = false
-}
+  const onCancel = () => {
+    isEditing.value = false
+  }
 
-const onDelete = () => {
-  isDeleting.value = true
-}
+  const onDelete = () => {
+    isDeleting.value = true
+  }
 
-const onDeleteCancel = () => {
-  isDeleting.value = false
-}
+  const onDeleteCancel = () => {
+    isDeleting.value = false
+  }
 
-const onDeleteConfirm = () => {
-  isDeleting.value = false
-}
+  const onDeleteConfirm = () => {
+    isDeleting.value = false
+  }
 </script>
 
 <template>
@@ -66,14 +66,14 @@ const onDeleteConfirm = () => {
         {{ getDisplayValue(rowKey) }}
       </span>
       <!-- Do if multiple items -->
-      <InputCombobox
+      <ColumnInput
           v-else-if="rowKey.editType === 'search-multiple'"
           :row-item="rowKey"
           multiple
           :min-items="2"
           :max-items="2"
       />
-      <InputCombobox
+      <ColumnInput
           v-else-if="rowKey.editType === 'search-single'"
           :rowItem="rowKey"
       />

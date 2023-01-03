@@ -1,11 +1,11 @@
 <script setup lang="ts">
-defineProps<{
-  label: string,
-  name: string,
-  type: string,
-  autocomplete?: string,
-  value: string
-}>()
+  defineProps<{
+    label: string,
+    name: string,
+    type: string,
+    autocomplete?: string,
+    value: string
+  }>()
 </script>
 
 <template>

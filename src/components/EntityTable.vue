@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import TableRow from "@/components/TableRow.vue";
-import Spinner from "@/components/Spinner.vue";
+  import TableRow from '@/components/TableRow.vue'
+  import Spinner from '@/components/Spinner.vue'
 
-const props = defineProps<{
-  columns: string[],
-  rows: any[],
-  isFetching: boolean
-}>()
+  const props = defineProps<{
+    columns: string[],
+    rows: any[],
+    isFetching: boolean
+  }>()
 </script>
 
 <template>
