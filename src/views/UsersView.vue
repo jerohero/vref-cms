@@ -23,35 +23,41 @@
       id: {
         display: training.id,
         value: training.id,
+        queryable: false,
         editable: false,
       },
       email: {
         display: training.email,
         value: training.email,
         editable: true,
+        queryable: true,
         editType: 'input-text'
       },
       firstName: {
         display: training.firstName,
         value: training.firstName,
         editable: true,
+        queryable: true,
         editType: 'input-text'
       },
       lastName: {
         display: training.lastName,
         value: training.lastName,
         editable: true,
+        queryable: true,
         editType: 'input-text'
       },
       userType: {
         display: training.userType,
         value: training.userType,
+        queryable: false,
         editable: true,
         editType: 'search-single'
       },
       organization: {
         display: training.organization.name,
         value: training.organization,
+        queryable: true,
         editable: true,
         editType: 'search-single'
       }

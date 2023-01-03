@@ -1,6 +1,6 @@
 <script setup lang="ts">
   defineProps<{
-
+    onInput: (query: string) => void
   }>()
 </script>
 
@@ -15,6 +15,7 @@
       </div>
       <input name="search-vref"
              placeholder="Search.."
+             v-on:input="onInput($event.target.value)"
              class="block w-full h-full rounded-md pl-10 bg-foreground border border-text text-base
              focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       />

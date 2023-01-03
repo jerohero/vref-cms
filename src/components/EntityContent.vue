@@ -2,9 +2,10 @@
   import EntityTable from '@/components/EntityTable.vue'
   import TableTop from '@/components/TableTop.vue'
   import Pagination from '@/components/Pagination.vue'
-  import { onMounted, ref}  from 'vue'
+  import { onMounted, ref } from 'vue'
   import axios from 'axios'
   import { useUserStore}  from '@/stores/user'
+  import { useTableStore } from '@/stores/table'
   import { useToast}  from 'vue-toastification'
 
   const props = defineProps<{
@@ -14,9 +15,11 @@
   }>()
 
   const userStore = useUserStore()
+  const tableStore = useTableStore()
   const toast = useToast()
 
   const rows = ref<any[]>([])
+  const filteredRows = ref<any[]>([])
   const isFetching = ref<boolean>(false)
 
   const fetch = async () => {
@@ -51,10 +54,30 @@
     return output
   }
 
+  const filter = (query: string) => {
+    return rows.value.filter((value) => {
+      let queryable = ''
+
+      for (const valueKey in value) {
+        if (value[valueKey].queryable) {
+          queryable += ` ${ value[valueKey].display }`
+        }
+      }
+
+      return queryable.toLowerCase().includes(query.toLowerCase())
+    })
+  }
+
   onMounted(() => {
     fetch().then((res) => {
       rows.value = res
     })
+  })
+
+  tableStore.$subscribe((mutation, state) => {
+    filteredRows.value = state.query
+        ? filter(state.query)
+        : []
   })
 </script>
 
@@ -65,7 +88,7 @@
     />
     <EntityTable
       :columns="columns"
-      :rows="rows"
+      :rows="tableStore.query ? filteredRows : rows"
       :is-fetching="isFetching"
     />
     <Pagination/>

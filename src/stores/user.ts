@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import axios from "axios";
-import {computed, ref} from 'vue'
-import type { Ref, ComputedRef } from 'vue';
-import {useRouter} from "vue-router";
+import axios from 'axios'
+import { computed, ref } from 'vue'
+import type { Ref, ComputedRef } from 'vue'
+import { useRouter } from 'vue-router'
 
 interface User {
   id: number,
