@@ -63,23 +63,23 @@
       {{ rowData.id.display }}
     </th>
     <td v-for="rowKey in getRowDataWithoutId()" v-bind:key="rowKey" class="px-6">
-      <span v-if="!isEditing || !rowKey.editable" class="py-5">
+      <span v-if="!isEditing || !rowKey.editable || rowKey.editDisabled" class="py-5">
         {{ getDisplayValue(rowKey) }}
       </span>
       <!-- Do if multiple items -->
       <ColumnCombobox
-          v-else-if="rowKey.editType === 'search-multiple'"
+          v-else-if="!rowKey.editDisabled &&rowKey.editType === 'search-multiple'"
           :row-item="rowKey"
           multiple
           :min-items="2"
           :max-items="2"
       />
       <ColumnCombobox
-          v-else-if="rowKey.editType === 'search-single'"
+          v-else-if="!rowKey.editDisabled && rowKey.editType === 'search-single'"
           :rowItem="rowKey"
       />
       <ColumnInput
-          v-else-if="rowKey.editType === 'input-text'"
+          v-else-if="!rowKey.editDisabled && rowKey.editType === 'input-text'"
           :rowItem="rowKey"
       />
     </td>

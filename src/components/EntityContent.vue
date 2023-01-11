@@ -27,7 +27,7 @@
       isFetching.value = true
 
       try {
-        const res = await axios.get(props.fetchUrl, {
+        const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.fetchUrl, {
           headers: { 'Authorization': userStore.bearerToken }
         })
 

@@ -16,7 +16,7 @@
   const columns = [
     'Name'
   ]
-  const fetchUrl = 'https://vrefsolutions-api.azurewebsites.net/api/organization'
+  const fetchUrl = '/organization'
 
   const getRowObject = (training: any): any => {
     return {

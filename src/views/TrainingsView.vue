@@ -20,7 +20,7 @@
   const columns = [
     'Status', 'Instructor', 'Students', 'Date'
   ]
-  const fetchUrl = 'https://vrefsolutions-api.azurewebsites.net/api/training'
+  const fetchUrl = '/training'
 
   const getRowObject = (training: any): any => {
     const trainingDate = dayjs(training.creationDateTime)

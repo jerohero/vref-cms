@@ -16,7 +16,7 @@
   const columns = [
     'Email', 'First name', 'Last name', 'Role', 'Organization'
   ]
-  const fetchUrl = 'https://vrefsolutions-api.azurewebsites.net/api/user'
+  const fetchUrl = '/user'
 
   const getRowObject = (training: any): any => {
     return {
@@ -59,7 +59,9 @@
         value: training.organization,
         queryable: true,
         editable: true,
-        editType: 'search-single'
+        editType: 'search-single',
+        editDisabled: userStore.user.userType !== 'SuperAdmin',
+        optionsUrl: '/organization'
       }
     }
   }
