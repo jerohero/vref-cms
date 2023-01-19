@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, ref, watch } from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
   import {
     Combobox,
     ComboboxButton,
@@ -8,6 +8,8 @@
     ComboboxOptions,
   } from '@headlessui/vue'
   import { useToast } from 'vue-toastification'
+import axios from 'axios'
+import { useUserStore } from '@/stores/user'
 
   const props = defineProps<{
     rowItem: any,
@@ -16,23 +18,21 @@
     minItems?: number
   }>()
 
-  const values = [
+  const toast = useToast()
+  const userStore = useUserStore()
+
+  const data = ref([
     { firstName: 'Jin', lastName: 'Jan', email: 'instructor@outlook.com', id: 2, organization: {}, userType: 'Instructor' },
     { firstName: 'Alexander', lastName: 'van den Hoofd', email: 'email_with_long_name792.company@outlook.com', id: 3, organization: {}, userType: 'Instructor' },
     { firstName: 'Persoon', lastName: 'Piloot', email: 'a@outlook.com', id: 5, organization: {}, userType: 'Instructor' },
-  ]
-
-  if (props.multiple) values.push(props.rowItem.value[0], props.rowItem.value[1])
-
-  const toast = useToast()
-
+  ])
   const query = ref('')
   const selected = ref(props.multiple ? [props.rowItem.value[0], props.rowItem.value[1]] : props.rowItem.value)
   const filtered = computed(() =>
       query.value === ''
-          ? values
-          : values.filter((value) => {
-            const queryable = `${ value.firstName } ${ value.lastName } ${ value.email }`
+          ? data
+          : data.value.filter((dataItem) => {
+            const queryable = props.rowItem.edit?.queryable(dataItem)
 
             return queryable.toLowerCase().includes(query.value.toLowerCase())
           })
@@ -40,6 +40,19 @@
 
   const isOverMax = computed(() => props.maxItems ? selected.value.length > props.maxItems : false)
   const isUnderMin = computed(() => props.minItems ? selected.value.length < props.minItems : false)
+
+  onMounted(async () => {
+    if (props.multiple)
+      data.value.push(props.rowItem.value[0], props.rowItem.value[1])
+
+    if (props.rowItem.edit?.optionsUrl) {
+      const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.rowItem.edit?.optionsUrl, {
+        headers: { 'Authorization': userStore.bearerToken }
+      })
+
+      data.value = res.data
+    }
+  })
 
   watch(isUnderMin, (from, to) => {
     if (to) return
@@ -55,10 +68,10 @@
 
   const getDisplayValue = (input: any) => {
     if (props.multiple) {
-      return input.map((person: any) => `${ person?.firstName } ${ person?.lastName }`).join(', ')
+      return input.map((inputItem: any) => props.rowItem.edit?.optionDisplay(inputItem)).join(', ')
     }
 
-    return `${ input?.firstName } ${ input?.lastName }`
+    return props.rowItem.edit?.optionDisplay(input)
   }
 
   console.log(props.rowItem)
@@ -101,10 +114,10 @@
           >
             <div class="flex items-center justify-between">
               <span class="truncate" :class="selected && 'font-semibold'">
-                {{ person.firstName }} {{ person.lastName }}
+                {{ props.rowItem.edit?.optionDisplay(person) }}
               </span>
-              <span class="ml-2 mr-2 truncate text-[0.5rem] text-line">
-                {{ person.email }}
+              <span v-if="rowItem.edit?.optionDisplaySecondary" class="ml-2 mr-2 truncate text-[0.5rem] text-line">
+                {{ props.rowItem.edit?.optionDisplaySecondary(person) }}
               </span>
             </div>
 
