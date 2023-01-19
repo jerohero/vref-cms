@@ -55,12 +55,14 @@
   }
 
   const filter = (query: string) => {
-    return rows.value.filter((value) => {
+    return rows.value.filter((row) => {
       let queryable = ''
 
-      for (const valueKey in value) {
-        if (value[valueKey].queryable) {
-          queryable += ` ${ value[valueKey].display }`
+      for (const rowKey in row) {
+        const rowValue = row[rowKey]
+
+        if (rowValue.queryable) {
+          queryable += ` ${ rowValue.display(rowValue.value) }`
         }
       }
 

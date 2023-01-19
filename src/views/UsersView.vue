@@ -13,7 +13,8 @@
   }
 
   interface Column {
-    display: string,
+    key: string,
+    display: (value: any) => string, // Defines how the displayed value is created
     value: any,
     queryable: boolean, // For searching the table
     editable: boolean, // For making values editable
@@ -24,8 +25,7 @@
         id: (value: any) => string,
         value?: any[], // Defines pre-defined options
         fetchUrl?: string, // Defines the URL options can be fetched from
-        display: (value: any) => string, // Defines how the option's display value is created
-        displaySecondary?: (value: any) => string, // Defines how the option's secondary display value is created
+        displaySub?: (value: any) => string, // Defines how the option's secondary display value is created
         queryable: (value: any) => string, // Defines how the option's queryable value is created
       }
     }
@@ -44,13 +44,15 @@
   const getRowObject = (user: any): UserColumns => {
     return {
       id: {
-        display: user.id,
+        key: 'id',
+        display: (id: string) => id,
         value: user.id,
         queryable: false,
         editable: false,
       },
       email: {
-        display: user.email,
+        key: 'email',
+        display: (email: string) => email,
         value: user.email,
         editable: true,
         queryable: true,
@@ -59,7 +61,8 @@
         }
       },
       firstName: {
-        display: user.firstName,
+        key: 'firstName',
+        display: (firstName: string) => firstName,
         value: user.firstName,
         editable: true,
         queryable: true,
@@ -68,7 +71,8 @@
         }
       },
       lastName: {
-        display: user.lastName,
+        key: 'lastName',
+        display: (lastName: string) => lastName,
         value: user.lastName,
         editable: true,
         queryable: true,
@@ -77,7 +81,8 @@
         }
       },
       userType: {
-        display: user.userType,
+        key: 'userType',
+        display: (userType: string) => userType,
         value: user.userType,
         queryable: false,
         editable: true,
@@ -91,13 +96,13 @@
               'Instructor',
               'Student'
             ],
-            display: (userType: string) => userType,
             queryable: (userType: string) => userType
           }
         }
       },
       organization: {
-        display: user.organization.name,
+        key: 'organization',
+        display: (organization: any) => organization.name,
         value: user.organization,
         queryable: true,
         editable: true,
@@ -107,7 +112,6 @@
           options: {
             id: (organization: any) => organization.id,
             fetchUrl: '/organization',
-            display: (organization: any) => organization.name,
             queryable: (organization: any) => organization.name
           }
         }

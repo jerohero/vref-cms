@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import IconButton from '@/components/IconButton.vue'
-  import { ref } from 'vue'
+  import {ref, toRef} from 'vue'
   import ConfirmationModal from '@/components/ConfirmationModal.vue'
   import ColumnInput from '@/components/ColumnInput.vue'
   import ColumnCombobox from '@/components/ColumnCombobox.vue'
@@ -11,14 +11,8 @@
 
   const isEditing = ref<boolean>()
   const isDeleting = ref<boolean>()
-
-  const getDisplayValue = (rowKey: any) => {
-    if (Array.isArray(rowKey.display)) {
-      return rowKey.display.join(', ')
-    }
-
-    return rowKey?.display
-  }
+  const data = toRef(props, 'rowData')
+  const editedData = JSON.parse(JSON.stringify(data.value))
 
   const getEditBoxes = (rowKey: any) => {
     for (const rowKeyElement of rowKey) {
@@ -27,7 +21,7 @@
   }
 
   const getRowDataWithoutId = () => {
-    let {id, ...withoutId} = props.rowData;
+    let {id, ...withoutId} = data.value;
 
     return withoutId
   }
@@ -38,6 +32,11 @@
 
   const onSave = () => {
     isEditing.value = false
+
+    if (JSON.stringify(data.value) !== JSON.stringify(editedData)) {
+      console.log('Edited!')
+      console.log(editedData)
+    }
   }
 
   const onCancel = () => {
@@ -55,33 +54,40 @@
   const onDeleteConfirm = () => {
     isDeleting.value = false
   }
+
+  const onChange = (item: any, newValue: string) => {
+    editedData[item.key] = newValue
+  }
 </script>
 
 <template>
   <tr class="border-b border-b-line text-sm">
     <th scope="row" class="py-5 px-6 whitespace-nowrap">
-      {{ rowData.id.display }}
+      {{ data.id.display(data.id.value) }}
     </th>
-    <td v-for="rowKey in getRowDataWithoutId()" v-bind:key="rowKey" class="px-6">
-      <span v-if="!isEditing || !rowKey.editable || rowKey.edit?.disabled" class="py-5">
-        {{ getDisplayValue(rowKey) }}
+    <td v-for="rowItem in getRowDataWithoutId()" v-bind:key="rowItem" class="px-6">
+      <span v-if="!isEditing || !rowItem.editable || rowItem.edit?.disabled" class="py-5">
+        {{ rowItem.display(rowItem.value) }}
       </span>
       <!-- Do if multiple items -->
       <div v-else>
         <ColumnCombobox
-            v-if="rowKey.edit?.type === 'search-multiple'"
-            :row-item="rowKey"
+            v-if="rowItem.edit?.type === 'search-multiple'"
+            :row-item="rowItem"
             multiple
             :min-items="2"
             :max-items="2"
+            @select="onChange(rowItem, $event)"
         />
         <ColumnCombobox
-            v-if="rowKey.edit?.type === 'search-single'"
-            :rowItem="rowKey"
+            v-if="rowItem.edit?.type === 'search-single'"
+            :rowItem="rowItem"
+            @select="onChange(rowItem, $event)"
         />
         <ColumnInput
-            v-if="rowKey.edit?.type === 'input-text'"
-            :rowItem="rowKey"
+            v-if="rowItem.edit?.type === 'input-text'"
+            :rowItem="rowItem"
+            @select="onChange(rowItem, $event)"
         />
       </div>
     </td>

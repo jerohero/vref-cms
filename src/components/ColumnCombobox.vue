@@ -20,6 +20,7 @@
 
   const toast = useToast()
   const userStore = useUserStore()
+  const emit = defineEmits(['select'])
 
   const data = ref()
   const selected = ref()
@@ -45,36 +46,40 @@
       const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.rowItem.edit?.options?.fetchUrl, {
         headers: { 'Authorization': userStore.bearerToken }
       })
-
       data.value = res.data
     } else if (props.rowItem.edit?.options?.value) {
       data.value = props.rowItem.edit?.options?.value
     }
 
-    selected.value = props.rowItem.value
+    // Find current value
+    selected.value = data.value.find((item: any) =>
+        (item?.id || item) === (props.rowItem.value.id || props.rowItem.value)
+    )
   })
 
   watch(isUnderMin, (from, to) => {
-    if (to) return
+    if (to) return // Is over min
 
     toast.warning(`This field has a minimum of ${ props.minItems } values!`)
   })
 
   watch(isOverMax, (from, to) => {
-    if (to) return
+    if (to) return // Is under max
 
     toast.warning(`This field has a maximum of ${ props.minItems } values!`)
+  })
+
+  watch(selected, (from ,to) => {
+    if (!to) return // None selected
+
+    emit('select', selected.value)
   })
 
   const getDisplayValue = (input: any) => {
     if (!input)
       return ''
 
-    if (props.multiple)
-      return input.map((inputItem: any) => props.rowItem.edit?.options?.display(inputItem))
-          .join(', ')
-
-    return props.rowItem.edit?.options?.display(input)
+    return props.rowItem.display(input)
   }
 </script>
 
@@ -115,10 +120,10 @@
           >
             <div class="flex items-center justify-between">
               <span class="truncate" :class="selected && 'font-semibold'">
-                {{ props.rowItem.edit?.options?.display(option) }}
+                {{ getDisplayValue(option) }}
               </span>
-              <span v-if="rowItem.edit?.options?.displaySecondary" class="ml-2 mr-2 truncate text-[0.5rem] text-line">
-                {{ props.rowItem.edit?.options?.displaySecondary(option) }}
+              <span v-if="rowItem.edit?.options?.displaySub" class="ml-2 mr-2 truncate text-[0.5rem] text-line">
+                {{ props.rowItem.edit?.options?.displaySub(option) }}
               </span>
             </div>
 

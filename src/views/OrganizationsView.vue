@@ -21,12 +21,12 @@
   const getRowObject = (training: any): any => {
     return {
       id: {
-        display: training.id,
+        display: (id: string) => id,
         value: training.id,
         editable: false,
       },
       name: {
-        display: training.name,
+        display: (name: string) => name,
         value: training.name,
         editable: true,
         edit: {

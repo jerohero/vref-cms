@@ -27,17 +27,17 @@
 
     return {
       id: {
-        display: training.id,
+        display: (id: string) => id,
         value: training.id,
         editable: false,
       },
       status: {
-        display: training.status,
+        display: (status: string) => status,
         value: training.status,
         editable: false,
       },
       instructor: {
-        display: `${ training.instructor?.firstName } ${ training.instructor?.lastName }`,
+        display: (instructor: any) => `${ instructor?.firstName } ${ instructor?.lastName }`,
         value: training.instructor,
         editable: true,
         edit: {
@@ -45,7 +45,8 @@
         }
       },
       students: {
-        display: training.students?.map((student: any) => `${ student?.firstName } ${ student?.lastName }`),
+        display: (students: any[]) => students?.map((student: any) => `${ student?.firstName } ${ student?.lastName }`)
+            .join(', '),
         value: training.students,
         editable: true,
         edit: {
@@ -53,7 +54,7 @@
         }
       },
       date: {
-        display: trainingDate.format('DD-MM-YYYY HH:mm'),
+        display: (creationDateTime: string) => dayjs(creationDateTime).format('DD-MM-YYYY HH:mm'),
         value: trainingDate,
         editable: false,
       }
