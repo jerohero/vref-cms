@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, watch} from 'vue'
+  import { computed, onMounted, ref, watch } from 'vue'
   import {
     Combobox,
     ComboboxButton,
@@ -8,8 +8,8 @@ import {computed, onMounted, ref, watch} from 'vue'
     ComboboxOptions,
   } from '@headlessui/vue'
   import { useToast } from 'vue-toastification'
-import axios from 'axios'
-import { useUserStore } from '@/stores/user'
+  import axios from 'axios'
+  import { useUserStore } from '@/stores/user'
 
   const props = defineProps<{
     rowItem: any,
@@ -21,18 +21,14 @@ import { useUserStore } from '@/stores/user'
   const toast = useToast()
   const userStore = useUserStore()
 
-  const data = ref([
-    { firstName: 'Jin', lastName: 'Jan', email: 'instructor@outlook.com', id: 2, organization: {}, userType: 'Instructor' },
-    { firstName: 'Alexander', lastName: 'van den Hoofd', email: 'email_with_long_name792.company@outlook.com', id: 3, organization: {}, userType: 'Instructor' },
-    { firstName: 'Persoon', lastName: 'Piloot', email: 'a@outlook.com', id: 5, organization: {}, userType: 'Instructor' },
-  ])
+  const data = ref()
+  const selected = ref()
   const query = ref('')
-  const selected = ref(props.multiple ? [props.rowItem.value[0], props.rowItem.value[1]] : props.rowItem.value)
   const filtered = computed(() =>
       query.value === ''
           ? data
-          : data.value.filter((dataItem) => {
-            const queryable = props.rowItem.edit?.queryable(dataItem)
+          : data.value.filter((dataItem: any) => {
+            const queryable = props.rowItem.edit?.options?.queryable(dataItem)
 
             return queryable.toLowerCase().includes(query.value.toLowerCase())
           })
@@ -42,16 +38,20 @@ import { useUserStore } from '@/stores/user'
   const isUnderMin = computed(() => props.minItems ? selected.value.length < props.minItems : false)
 
   onMounted(async () => {
-    if (props.multiple)
-      data.value.push(props.rowItem.value[0], props.rowItem.value[1])
+    // if (props.multiple)
+    //   data.value.push(props.rowItem.value[0], props.rowItem.value[1])
 
-    if (props.rowItem.edit?.optionsUrl) {
-      const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.rowItem.edit?.optionsUrl, {
+    if (props.rowItem.edit?.options?.fetchUrl) {
+      const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.rowItem.edit?.options?.fetchUrl, {
         headers: { 'Authorization': userStore.bearerToken }
       })
 
       data.value = res.data
+    } else if (props.rowItem.edit?.options?.value) {
+      data.value = props.rowItem.edit?.options?.value
     }
+
+    selected.value = props.rowItem.value
   })
 
   watch(isUnderMin, (from, to) => {
@@ -67,22 +67,23 @@ import { useUserStore } from '@/stores/user'
   })
 
   const getDisplayValue = (input: any) => {
-    if (props.multiple) {
-      return input.map((inputItem: any) => props.rowItem.edit?.optionDisplay(inputItem)).join(', ')
-    }
+    if (!input)
+      return ''
 
-    return props.rowItem.edit?.optionDisplay(input)
+    if (props.multiple)
+      return input.map((inputItem: any) => props.rowItem.edit?.options?.display(inputItem))
+          .join(', ')
+
+    return props.rowItem.edit?.options?.display(input)
   }
-
-  console.log(props.rowItem)
 </script>
 
 <template>
-  <Combobox as="div" v-model="selected" :multiple="multiple">
+  <Combobox v-if="selected" as="div" v-model="selected" :multiple="multiple">
     <div class="relative mt-1">
       <ComboboxInput
           @change="query = $event.target.value"
-          :display-value="(person) => multiple ? query : getDisplayValue(person)"
+          :display-value="(value) => multiple ? query : getDisplayValue(value)"
           class="w-full bg-foreground border border-text text-sm rounded-md py-2 pl-3 pr-10 focus:border-indigo-500
           focus:outline-none focus:ring-1 focus:ring-indigo-500"
           :title="getDisplayValue(selected)"
@@ -103,9 +104,9 @@ import { useUserStore } from '@/stores/user'
           class="absolute bg-background z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base
                 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
       >
-        <ComboboxOption v-for="person in filtered"
-                        :key="person.email"
-                        :value="person"
+        <ComboboxOption v-for="option in filtered"
+                        :key="rowItem.edit?.options?.id(option)"
+                        :value="option"
                         as="template"
                         v-slot="{ active, selected }"
         >
@@ -114,10 +115,10 @@ import { useUserStore } from '@/stores/user'
           >
             <div class="flex items-center justify-between">
               <span class="truncate" :class="selected && 'font-semibold'">
-                {{ props.rowItem.edit?.optionDisplay(person) }}
+                {{ props.rowItem.edit?.options?.display(option) }}
               </span>
-              <span v-if="rowItem.edit?.optionDisplaySecondary" class="ml-2 mr-2 truncate text-[0.5rem] text-line">
-                {{ props.rowItem.edit?.optionDisplaySecondary(person) }}
+              <span v-if="rowItem.edit?.options?.displaySecondary" class="ml-2 mr-2 truncate text-[0.5rem] text-line">
+                {{ props.rowItem.edit?.options?.displaySecondary(option) }}
               </span>
             </div>
 
