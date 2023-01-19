@@ -26,7 +26,7 @@
   const query = ref('')
   const filtered = computed(() =>
       query.value === ''
-          ? data
+          ? data.value
           : data.value.filter((dataItem: any) => {
             const queryable = props.rowItem.edit?.options?.queryable(dataItem)
 
