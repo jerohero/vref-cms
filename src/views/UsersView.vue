@@ -31,37 +31,51 @@
         value: training.email,
         editable: true,
         queryable: true,
-        editType: 'input-text'
+        edit: {
+          type: 'input-text'
+        }
       },
       firstName: {
         display: training.firstName,
         value: training.firstName,
         editable: true,
         queryable: true,
-        editType: 'input-text'
+        edit: {
+          type: 'input-text'
+        }
       },
       lastName: {
         display: training.lastName,
         value: training.lastName,
         editable: true,
         queryable: true,
-        editType: 'input-text'
+        edit: {
+          type: 'input-text'
+        }
       },
       userType: {
         display: training.userType,
         value: training.userType,
         queryable: false,
         editable: true,
-        editType: 'search-single'
+        edit: {
+          type: 'search-single',
+          optionDisplay: (userType: string) => userType,
+          queryable: (userType: string) => userType
+        }
       },
       organization: {
         display: training.organization.name,
         value: training.organization,
         queryable: true,
         editable: true,
-        editType: 'search-single',
-        editDisabled: userStore.user.userType !== 'SuperAdmin',
-        optionsUrl: '/organization'
+        edit: {
+          type: 'search-single',
+          disabled: userStore.user.userType !== 'SuperAdmin',
+          optionsUrl: '/organization',
+          optionDisplay: (organization: any) => organization.name,
+          queryable: (organization: any) => organization.name
+        }
       }
     }
   }

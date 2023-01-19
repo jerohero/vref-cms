@@ -29,7 +29,9 @@
         display: training.name,
         value: training.name,
         editable: true,
-        editType: 'input-text'
+        edit: {
+          type: 'input-text'
+        }
       }
     }
   }

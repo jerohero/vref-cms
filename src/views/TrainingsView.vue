@@ -40,13 +40,17 @@
         display: `${ training.instructor?.firstName } ${ training.instructor?.lastName }`,
         value: training.instructor,
         editable: true,
-        editType: 'search-single'
+        edit: {
+          type: 'search-single'
+        }
       },
       students: {
         display: training.students?.map((student: any) => `${ student?.firstName } ${ student?.lastName }`),
         value: training.students,
         editable: true,
-        editType: 'search-multiple'
+        edit: {
+          type: 'search-multiple'
+        }
       },
       date: {
         display: trainingDate.format('DD-MM-YYYY HH:mm'),

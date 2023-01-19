@@ -63,25 +63,27 @@
       {{ rowData.id.display }}
     </th>
     <td v-for="rowKey in getRowDataWithoutId()" v-bind:key="rowKey" class="px-6">
-      <span v-if="!isEditing || !rowKey.editable || rowKey.editDisabled" class="py-5">
+      <span v-if="!isEditing || !rowKey.editable || rowKey.edit?.disabled" class="py-5">
         {{ getDisplayValue(rowKey) }}
       </span>
       <!-- Do if multiple items -->
-      <ColumnCombobox
-          v-else-if="!rowKey.editDisabled &&rowKey.editType === 'search-multiple'"
-          :row-item="rowKey"
-          multiple
-          :min-items="2"
-          :max-items="2"
-      />
-      <ColumnCombobox
-          v-else-if="!rowKey.editDisabled && rowKey.editType === 'search-single'"
-          :rowItem="rowKey"
-      />
-      <ColumnInput
-          v-else-if="!rowKey.editDisabled && rowKey.editType === 'input-text'"
-          :rowItem="rowKey"
-      />
+      <div v-else>
+        <ColumnCombobox
+            v-if="rowKey.edit?.type === 'search-multiple'"
+            :row-item="rowKey"
+            multiple
+            :min-items="2"
+            :max-items="2"
+        />
+        <ColumnCombobox
+            v-if="rowKey.edit?.type === 'search-single'"
+            :rowItem="rowKey"
+        />
+        <ColumnInput
+            v-if="rowKey.edit?.type === 'input-text'"
+            :rowItem="rowKey"
+        />
+      </div>
     </td>
     <td class="px-6 text-xl select-none relative">
       <div v-if="isEditing" class="flex gap-1 justify-end">
