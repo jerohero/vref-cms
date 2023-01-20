@@ -12,13 +12,7 @@
   const isEditing = ref<boolean>()
   const isDeleting = ref<boolean>()
   const data = toRef(props, 'rowData')
-  const editedData = JSON.parse(JSON.stringify(data.value))
-
-  const getEditBoxes = (rowKey: any) => {
-    for (const rowKeyElement of rowKey) {
-
-    }
-  }
+  let editedData = JSON.parse(JSON.stringify(data.value))
 
   const getRowDataWithoutId = () => {
     let {id, ...withoutId} = data.value;
@@ -35,12 +29,12 @@
 
     if (JSON.stringify(data.value) !== JSON.stringify(editedData)) {
       console.log('Edited!')
-      console.log(editedData)
     }
   }
 
   const onCancel = () => {
     isEditing.value = false
+    editedData = JSON.parse(JSON.stringify(data.value))
   }
 
   const onDelete = () => {
@@ -55,8 +49,8 @@
     isDeleting.value = false
   }
 
-  const onChange = (item: any, newValue: string) => {
-    editedData[item.key] = newValue
+  const onChange = (emitted: { key: string, value: any }) => {
+    editedData[emitted.key] = emitted.value
   }
 </script>
 
@@ -77,17 +71,17 @@
             multiple
             :min-items="2"
             :max-items="2"
-            @select="onChange(rowItem, $event)"
+            @change="onChange"
         />
         <ColumnCombobox
             v-if="rowItem.edit?.type === 'search-single'"
             :rowItem="rowItem"
-            @select="onChange(rowItem, $event)"
+            @change="onChange"
         />
         <ColumnInput
             v-if="rowItem.edit?.type === 'input-text'"
             :rowItem="rowItem"
-            @select="onChange(rowItem, $event)"
+            @change="onChange"
         />
       </div>
     </td>

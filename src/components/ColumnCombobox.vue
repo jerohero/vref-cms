@@ -20,7 +20,7 @@
 
   const toast = useToast()
   const userStore = useUserStore()
-  const emit = defineEmits(['select'])
+  const emit = defineEmits(['change'])
 
   const data = ref()
   const selected = ref()
@@ -72,7 +72,10 @@
   watch(selected, (from ,to) => {
     if (!to) return // None selected
 
-    emit('select', selected.value)
+    emit('change', {
+      key: props.rowItem.key,
+      value: selected.value
+    })
   })
 
   const getDisplayValue = (input: any) => {
