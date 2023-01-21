@@ -2,10 +2,11 @@
   import EntityTitle from '@/components/EntityTitle.vue'
   import EntityContent from '@/components/EntityContent.vue'
   import { useUserStore } from '@/stores/user'
+  import type { Column } from '@/shared/interfaces';
 
-  interface Organization {
-    id: number,
-    name: string
+  interface OrganizationColumns {
+    id: Column,
+    name: Column,
   }
 
   const userStore = useUserStore()
@@ -22,24 +23,28 @@
     const { name } = updated
 
     return {
-      name
+      name: name.value
     }
   }
 
-  const getRowObject = (training: any): any => {
+  const getRowObject = (training: any): OrganizationColumns => {
     return {
       id: {
+        key: 'id',
         display: (id: string) => id,
         value: training.id,
         editable: false,
+        queryable: true,
       },
       name: {
+        key: 'name',
         display: (name: string) => name,
         value: training.name,
         editable: true,
+        queryable: true,
         edit: {
           type: 'input-text'
-        }
+        },
       }
     }
   }
