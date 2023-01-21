@@ -70,6 +70,13 @@
     })
   }
 
+  const updateRow = (updatedRow: any) => {
+    const rowIndex = rows.value.map((row) => row.id.value).indexOf(updatedRow.id.value)
+    for (const key in rows.value[rowIndex]) {
+      rows.value[rowIndex][key].value = updatedRow[key].value
+    }
+  }
+
   onMounted(() => {
     fetch().then((res) => {
       rows.value = res
@@ -92,6 +99,7 @@
       :columns="columns"
       :rows="tableStore.query ? filteredRows : rows"
       :is-fetching="isFetching"
+      @update-row="updateRow"
     />
     <Pagination/>
   </div>

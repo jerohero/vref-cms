@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import IconButton from '@/components/IconButton.vue'
-  import {ref, toRef} from 'vue'
+  import {ref, toRaw, toRef} from 'vue'
   import ConfirmationModal from '@/components/ConfirmationModal.vue'
   import ColumnInput from '@/components/ColumnInput.vue'
   import ColumnCombobox from '@/components/ColumnCombobox.vue'
@@ -11,11 +11,12 @@
 
   const isEditing = ref<boolean>()
   const isDeleting = ref<boolean>()
-  const data = toRef(props, 'rowData')
-  let editedData = JSON.parse(JSON.stringify(data.value))
+  let editedValue = JSON.parse(JSON.stringify(props.rowData))
+
+  const emit = defineEmits(['update'])
 
   const getRowDataWithoutId = () => {
-    let {id, ...withoutId} = data.value;
+    let {id, ...withoutId} = props.rowData
 
     return withoutId
   }
@@ -27,14 +28,14 @@
   const onSave = () => {
     isEditing.value = false
 
-    if (JSON.stringify(data.value) !== JSON.stringify(editedData)) {
-      console.log('Edited!')
+    if (JSON.stringify(props.rowData) !== JSON.stringify(editedValue)) {
+      emit('update', editedValue)
     }
   }
 
   const onCancel = () => {
     isEditing.value = false
-    editedData = JSON.parse(JSON.stringify(data.value))
+    editedValue = JSON.parse(JSON.stringify(props.rowData))
   }
 
   const onDelete = () => {
@@ -50,14 +51,14 @@
   }
 
   const onChange = (emitted: { key: string, value: any }) => {
-    editedData[emitted.key] = emitted.value
+    editedValue[emitted.key].value = emitted.value
   }
 </script>
 
 <template>
   <tr class="border-b border-b-line text-sm">
     <th scope="row" class="py-5 px-6 whitespace-nowrap">
-      {{ data.id.display(data.id.value) }}
+      {{ rowData.id.display(rowData.id.value) }}
     </th>
     <td v-for="rowItem in getRowDataWithoutId()" v-bind:key="rowItem" class="px-6">
       <span v-if="!isEditing || !rowItem.editable || rowItem.edit?.disabled" class="py-5">

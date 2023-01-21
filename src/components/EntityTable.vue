@@ -7,6 +7,12 @@
     rows: any[],
     isFetching: boolean
   }>()
+
+  const emit = defineEmits(['updateRow'])
+
+  const update = (updated: any) => {
+    emit('updateRow', updated)
+  }
 </script>
 
 <template>
@@ -37,6 +43,7 @@
                   v-for="row in rows"
                   v-bind:key="row.id"
                   :row-data="row"
+                  @update="update"
         />
       </tbody>
     </table>
