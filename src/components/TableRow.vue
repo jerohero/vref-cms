@@ -101,9 +101,9 @@
       v-if="isDeleting"
       :onCancel="onDeleteCancel"
       :onConfirm="onDeleteConfirm"
-      title="Delete training"
+      title="Delete row"
       type="alert"
-      content="Are you sure you want to delete this training? This action cannot be undone."
+      content="Are you sure you want to delete this row? This action cannot be undone."
       confirm-text="Delete"
   />
 </template>

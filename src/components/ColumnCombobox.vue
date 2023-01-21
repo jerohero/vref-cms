@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { computed, onMounted, ref, watch } from 'vue'
+import {computed, onMounted, ref, toRaw, watch} from 'vue'
   import {
     Combobox,
     ComboboxButton,
@@ -35,13 +35,10 @@
           })
   )
 
-  const isOverMax = computed(() => props.maxItems ? selected.value.length > props.maxItems : false)
-  const isUnderMin = computed(() => props.minItems ? selected.value.length < props.minItems : false)
+  const isOverMax = computed(() => props.maxItems &&  selected.value ? selected.value.length > props.maxItems : false)
+  const isUnderMin = computed(() => props.minItems && selected.value ? selected.value.length < props.minItems : false)
 
   onMounted(async () => {
-    // if (props.multiple)
-    //   data.value.push(props.rowItem.value[0], props.rowItem.value[1])
-
     if (props.rowItem.edit?.options?.fetchUrl) {
       const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.rowItem.edit?.options?.fetchUrl, {
         headers: { 'Authorization': userStore.bearerToken }
@@ -51,11 +48,26 @@
       data.value = props.rowItem.edit?.options?.value
     }
 
-    // Find current value
+    if (props.multiple) {
+      initSelectedValuesMultiple()
+      return
+    }
+
+    initSelectedValue()
+  })
+
+  const initSelectedValue = () => {
     selected.value = data.value.find((item: any) =>
         (item?.id || item) === (props.rowItem.value.id || props.rowItem.value)
     )
-  })
+  }
+
+  const initSelectedValuesMultiple = () => {
+    selected.value = data.value.filter((item: any) =>
+        props.rowItem.value.map((current: any) => current.id).includes(item?.id || item)
+        || props.rowItem.value.map((current: any) => current).includes(item)
+    )
+  }
 
   watch(isUnderMin, (from, to) => {
     if (to) return // Is over min
