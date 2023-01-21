@@ -49,16 +49,16 @@
   const updateRow = async (updatedRow: any) => {
     try {
       await axios.put(
-          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ updatedRow.id }`,
+          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ updatedRow.id.value }`,
           props.getUpdateObject(updatedRow),
           {
             headers: { 'Authorization': userStore.bearerToken }
           }
       )
 
-      const rowIndex = rows.value.map((row) => row.id.value).indexOf(updatedRow.id)
+      const rowIndex = rows.value.map((row) => row.id.value).indexOf(updatedRow.id.value)
       for (const key in rows.value[rowIndex]) {
-        rows.value[rowIndex][key].value = updatedRow[key]
+        rows.value[rowIndex][key].value = updatedRow[key].value
       }
 
       toast.success('Row has been updated successfully!')

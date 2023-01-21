@@ -3,6 +3,7 @@
   import EntityContent from '@/components/EntityContent.vue'
   import { useUserStore } from '@/stores/user'
   import type { Column } from '@/shared/interfaces'
+  import {toRaw} from "vue";
 
   interface UserColumns {
     id: Column,
@@ -27,12 +28,12 @@
     const { email, firstName, lastName, userType, organization } = updated
 
     return {
-      email,
-      firstName,
-      lastName,
-      userType,
+      email: email.value,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      userType: userType.value,
       organization: {
-        id: organization.id
+        id: organization.value.id
       }
     }
   }

@@ -29,16 +29,8 @@
     isEditing.value = false
 
     if (JSON.stringify(props.rowData) !== JSON.stringify(editedValue)) {
-      emit('update', rowDataToValueObject(editedValue))
+      emit('update', editedValue)
     }
-  }
-
-  const rowDataToValueObject = (data: any) => {
-    for (const key in data) {
-      data[key] = toRaw(data[key].value)
-    }
-
-    return data
   }
 
   const onCancel = () => {
