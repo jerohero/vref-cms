@@ -16,7 +16,15 @@
   const columns = [
     'Name'
   ]
-  const fetchUrl = '/organization'
+  const route = '/organization'
+
+  const getUpdateObject = (updated: any) => {
+    const { name } = updated
+
+    return {
+      name
+    }
+  }
 
   const getRowObject = (training: any): any => {
     return {
@@ -45,8 +53,9 @@
     />
     <EntityContent
         :columns="columns"
-        :fetchUrl="fetchUrl"
-        :getRowObject="getRowObject"
+        :route="route"
+        :get-row-object="getRowObject"
+        :get-update-object="getUpdateObject"
     />
   </div>
 </template>

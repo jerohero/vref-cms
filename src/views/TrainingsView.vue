@@ -21,7 +21,15 @@
   const columns = [
     'Status', 'Instructor', 'Students', 'Date'
   ]
-  const fetchUrl = '/training'
+  const route = '/training'
+
+  const getUpdateObject = (updated: any) => {
+    const { students } = updated
+
+    return {
+      students: students.map((student: any) => student.id)
+    }
+  }
 
   const getRowObject = (training: any): TrainingColumns => {
     const trainingDate = dayjs(training.creationDateTime)
@@ -45,17 +53,8 @@
         key: 'instructor',
         display: (instructor: any) => `${ instructor?.firstName } ${ instructor?.lastName }`,
         value: training.instructor,
-        editable: true,
+        editable: false,
         queryable: true,
-        edit: {
-          type: 'search-single',
-          options: {
-            id: (instructor: any) => instructor.id,
-            fetchUrl: '/user',
-            queryable: (instructor: any) => `${ instructor?.firstName } ${ instructor?.lastName }`,
-            displaySub: (instructor: any) => instructor.email
-          }
-        }
       },
       students: {
         key: 'students',
@@ -94,8 +93,9 @@
     />
     <EntityContent
         :columns="columns"
-        :fetchUrl="fetchUrl"
-        :getRowObject="getRowObject"
+        :route="route"
+        :get-row-object="getRowObject"
+        :get-update-object="getUpdateObject"
     />
   </div>
 </template>

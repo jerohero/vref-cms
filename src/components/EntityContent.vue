@@ -9,9 +9,10 @@
   import { useToast}  from 'vue-toastification'
 
   const props = defineProps<{
-    fetchUrl: string,
+    route: string,
     columns: string[],
-    getRowObject(values: any): any
+    getRowObject(values: any): any,
+    getUpdateObject(updated: any): any,
   }>()
 
   const userStore = useUserStore()
@@ -23,25 +24,47 @@
   const isFetching = ref<boolean>(false)
 
   const fetch = async () => {
-    if (props.fetchUrl) {
+    if (props.route) {
       isFetching.value = true
 
       try {
-        const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.fetchUrl, {
+        const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.route, {
           headers: { 'Authorization': userStore.bearerToken }
         })
 
         isFetching.value = false
 
         return dataToRows(res.data)
-      } catch (e: any) {
+      } catch(e: any) {
         isFetching.value = false
-
         toast.error(e.response.statusText)
+
+        return []
       }
     }
 
     return []
+  }
+
+  const updateRow = async (updatedRow: any) => {
+    try {
+      await axios.put(
+          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ updatedRow.id }`,
+          props.getUpdateObject(updatedRow),
+          {
+            headers: { 'Authorization': userStore.bearerToken }
+          }
+      )
+
+      const rowIndex = rows.value.map((row) => row.id.value).indexOf(updatedRow.id)
+      for (const key in rows.value[rowIndex]) {
+        rows.value[rowIndex][key].value = updatedRow[key]
+      }
+
+      toast.success('Row has been updated successfully!')
+    } catch(e: any) {
+      toast.error(e.response.statusText)
+    }
   }
 
   const dataToRows = (values: any[]) => {
@@ -68,13 +91,6 @@
 
       return queryable.toLowerCase().includes(query.toLowerCase())
     })
-  }
-
-  const updateRow = (updatedRow: any) => {
-    const rowIndex = rows.value.map((row) => row.id.value).indexOf(updatedRow.id.value)
-    for (const key in rows.value[rowIndex]) {
-      rows.value[rowIndex][key].value = updatedRow[key].value
-    }
   }
 
   onMounted(() => {
