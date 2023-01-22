@@ -4,15 +4,22 @@
   import FormItem from '@/components/FormItem.vue'
   import { useUserStore } from '@/stores/user'
   import { useRouter } from 'vue-router'
+  import {useToast} from "vue-toastification";
 
   const email = ref<string>('')
   const password = ref<string>('')
 
   const userStore = useUserStore()
   const router = useRouter()
+  const toast = useToast()
 
   const login = () => {
     userStore.login(email.value, password.value).then(() => {
+      if (userStore.user.userType === 'Student' || userStore.user.userType === 'Instructor') {
+        toast.error("Not authorized for admin access")
+        return
+      }
+
       router.push({ path: '/' })
     })
   }

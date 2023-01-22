@@ -13,17 +13,22 @@
   const activeRoute = ref<string>('')
 
   const routes: ISidebarItem[] = [
-    { name: 'Organizations', href: '/organizations', icon: 'people-outline' },
     { name: 'Users', href: '/users', icon: 'person-outline' },
     { name: 'Trainings', href: '/trainings', icon: 'airplane-outline' }
   ]
-  const foldables: ISidebarItem[] = [
-    { name: 'AI', href: '/ai', icon: 'hardware-chip-outline', subItems: [
-        { name: 'Event Types', href: '/event-types' },
-        { name: 'ECAM Messages', href: '/ecam-messages' }
-      ]
-    },
-  ]
+  const foldables: ISidebarItem[] = []
+
+  if (userStore.isSuperAdmin) {
+    routes.push({ name: 'Organizations', href: '/organizations', icon: 'people-outline' })
+    foldables.push(
+        { name: 'AI', href: '/ai', icon: 'hardware-chip-outline', subItems: [
+            { name: 'Event Types', href: '/event-types' },
+            { name: 'ECAM Messages', href: '/ecam-messages' }
+          ]
+        }
+    )
+  }
+
   const signOutItem: ISidebarItem =
       { name: 'Sign Out', href: '/', icon: 'log-out-outline', cb: () => { signOut() }}
 

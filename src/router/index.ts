@@ -21,7 +21,10 @@ const router = createRouter({
       path: '/organizations',
       name: 'organizations',
       component: () => import('../views/OrganizationsView.vue'),
-      meta: { requiresAuth: true }
+      meta: {
+        requiresAuth: true,
+        requiresSuperAdmin: true
+      }
     },
     {
       path: '/users',
@@ -49,6 +52,10 @@ router.beforeEach((to, from, next) => {
 
   if (to.meta.requiresAuth && !userStore.isAuthenticated) {
     return next('/auth')
+  }
+
+  if (to.meta.requiresSuperAdmin && !userStore.isSuperAdmin) {
+    return next(from.path)
   }
 
   return next()
