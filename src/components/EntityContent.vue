@@ -7,12 +7,14 @@
   import { useUserStore}  from '@/stores/user'
   import { useTableStore } from '@/stores/table'
   import { useToast}  from 'vue-toastification'
+  import CreateRow from "@/components/CreateRow.vue";
 
   const props = defineProps<{
     route: string,
     columns: string[],
     getRowObject(values: any): any,
     getUpdateObject(updated: any): any,
+    createSettings: any
   }>()
 
   const userStore = useUserStore()
@@ -22,6 +24,7 @@
   const rows = ref<any[]>([])
   const filteredRows = ref<any[]>([])
   const isFetching = ref<boolean>(false)
+  const isCreatingRow = ref(false)
 
   const fetch = async () => {
     if (props.route) {
@@ -93,6 +96,14 @@
     })
   }
 
+  const onOpenCreatingRow = () => {
+    isCreatingRow.value = true
+  }
+
+  const onCloseCreatingRow = () => {
+    isCreatingRow.value = false
+  }
+
   onMounted(() => {
     fetch().then((res) => {
       rows.value = res
@@ -108,8 +119,14 @@
 
 <template>
   <div class="bg-foreground rounded-[3px] text-text mt-5">
+    <CreateRow
+      :open="isCreatingRow"
+      :create-settings="createSettings"
+      @close="onCloseCreatingRow"
+    />
     <TableTop
       :results-length="rows.length"
+      @create-click="onOpenCreatingRow"
     />
     <EntityTable
       :columns="columns"

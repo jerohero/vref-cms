@@ -3,7 +3,6 @@
   import EntityContent from '@/components/EntityContent.vue'
   import { useUserStore } from '@/stores/user'
   import type { Column } from '@/shared/interfaces'
-  import {toRaw} from "vue";
 
   interface UserColumns {
     id: Column,
@@ -23,6 +22,70 @@
     'Email', 'First name', 'Last name', 'Role', 'Organization'
   ]
   const route = '/user'
+
+  const columnInputs = {
+    email: {
+      type: 'input-text'
+    },
+    firstName: {
+      type: 'input-text'
+    },
+    lastName: {
+      type: 'input-text'
+    },
+    userType: {
+      type: 'search-single',
+      options: {
+        id: (userType: string) => userType,
+        value: [
+          'SuperAdmin',
+          'Admin',
+          'Instructor',
+          'Student'
+        ],
+        display: (userType: string) => userType,
+        queryable: (userType: string) => userType
+      }
+    },
+    organization: {
+      type: 'search-single',
+      disabled: userStore.user.userType !== 'SuperAdmin',
+      options: {
+        id: (organization: any) => organization.id,
+        fetchUrl: '/organization',
+        display: (organization: any) => organization.name,
+        queryable: (organization: any) => organization.name
+      }
+    }
+  }
+
+  const createSettings = {
+    email: {
+      key: 'email',
+      label: 'Email',
+      ...columnInputs.email
+    },
+    firstName: {
+      key: 'firstName',
+      label: 'First name',
+      ...columnInputs.firstName
+    },
+    lastName: {
+      key: 'lastName',
+      label: 'Last name',
+      ...columnInputs.lastName
+    },
+    userType: {
+      key: 'userType',
+      label: 'Role',
+      ...columnInputs.userType
+    },
+    organization: {
+      key: 'organization',
+      label: 'Organization',
+      ...columnInputs.organization
+    },
+  }
 
   const getUpdateObject = (updated: any) => {
     const { email, firstName, lastName, userType, organization } = updated
@@ -53,9 +116,7 @@
         value: user.email,
         editable: true,
         queryable: true,
-        edit: {
-          type: 'input-text'
-        }
+        edit: columnInputs.email
       },
       firstName: {
         key: 'firstName',
@@ -63,9 +124,7 @@
         value: user.firstName,
         editable: true,
         queryable: true,
-        edit: {
-          type: 'input-text'
-        }
+        edit: columnInputs.firstName
       },
       lastName: {
         key: 'lastName',
@@ -73,9 +132,7 @@
         value: user.lastName,
         editable: true,
         queryable: true,
-        edit: {
-          type: 'input-text'
-        }
+        edit: columnInputs.lastName
       },
       userType: {
         key: 'userType',
@@ -83,19 +140,7 @@
         value: user.userType,
         queryable: false,
         editable: true,
-        edit: {
-          type: 'search-single',
-          options: {
-            id: (userType: string) => userType,
-            value: [
-              'SuperAdmin',
-              'Admin',
-              'Instructor',
-              'Student'
-            ],
-            queryable: (userType: string) => userType
-          }
-        }
+        edit: columnInputs.userType
       },
       organization: {
         key: 'organization',
@@ -103,15 +148,7 @@
         value: user.organization,
         queryable: true,
         editable: true,
-        edit: {
-          type: 'search-single',
-          disabled: userStore.user.userType !== 'SuperAdmin',
-          options: {
-            id: (organization: any) => organization.id,
-            fetchUrl: '/organization',
-            queryable: (organization: any) => organization.name
-          }
-        }
+        edit: columnInputs.organization
       }
     }
   }
@@ -128,6 +165,7 @@
         :route="route"
         :getRowObject="getRowObject"
         :getUpdateObject="getUpdateObject"
+        :create-settings="createSettings"
     />
   </div>
 </template>

@@ -9,6 +9,12 @@
 
   const tableStore = useTableStore()
 
+  const emit = defineEmits(['createClick'])
+
+  const onCreateRowClick = () => {
+    emit('createClick')
+  }
+
   const onQuery = (query: string) => {
     tableStore.$patch({
       query
@@ -43,7 +49,11 @@
     </div>
     <div class="flex gap-8">
       <Search :on-input="onQuery"/>
-      <CustomButton text="Add new" is-primary/>
+      <CustomButton
+          text="Add new"
+          is-primary
+          :on-click="onCreateRowClick"
+      />
     </div>
   </div>
 </template>

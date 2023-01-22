@@ -12,11 +12,14 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
   import { useUserStore } from '@/stores/user'
 
   const props = defineProps<{
-    rowItem: any,
+    rowItem?: any, // Use for editing
+    createSettings?: any, // Use for creating
     multiple?: boolean,
     maxItems?: number,
     minItems?: number
   }>()
+
+  const settings = props.rowItem?.edit || props.createSettings
 
   const toast = useToast()
   const userStore = useUserStore()
@@ -29,7 +32,7 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
       query.value === ''
           ? data.value
           : data.value.filter((dataItem: any) => {
-            const queryable = props.rowItem.edit?.options?.queryable(dataItem)
+            const queryable = settings.options?.queryable(dataItem)
 
             return queryable.toLowerCase().includes(query.value.toLowerCase())
           })
@@ -39,13 +42,13 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
   const isUnderMin = computed(() => props.minItems && selected.value ? selected.value.length < props.minItems : false)
 
   onMounted(async () => {
-    if (props.rowItem.edit?.options?.fetchUrl) {
-      const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.rowItem.edit?.options?.fetchUrl, {
+    if (settings.options?.fetchUrl) {
+      const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + settings.options.fetchUrl, {
         headers: { 'Authorization': userStore.bearerToken }
       })
       data.value = res.data
-    } else if (props.rowItem.edit?.options?.value) {
-      data.value = props.rowItem.edit?.options?.value
+    } else if (settings.options?.value) {
+      data.value = settings.options?.value
     }
 
     if (props.multiple) {
@@ -57,12 +60,16 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
   })
 
   const initSelectedValue = () => {
+    if (!props.rowItem) return
+
     selected.value = data.value.find((item: any) =>
         (item?.id || item) === (props.rowItem.value.id || props.rowItem.value)
     )
   }
 
   const initSelectedValuesMultiple = () => {
+    if (!props.rowItem) return
+
     selected.value = data.value.filter((item: any) =>
         props.rowItem.value.map((current: any) => current.id).includes(item?.id || item)
         || props.rowItem.value.map((current: any) => current).includes(item)
@@ -85,7 +92,7 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
     if (!to) return // None selected
 
     emit('change', {
-      key: props.rowItem.key,
+      key: props.rowItem?.key || props.createSettings?.key,
       value: selected.value
     })
   })
@@ -94,12 +101,12 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
     if (!input)
       return ''
 
-    return props.rowItem.display(input)
+    return settings.options?.display(input)
   }
 </script>
 
 <template>
-  <Combobox v-if="selected" as="div" v-model="selected" :multiple="multiple">
+  <Combobox v-if="data" as="div" v-model="selected" :multiple="multiple">
     <div class="relative mt-1">
       <ComboboxInput
           @change="query = $event.target.value"
@@ -125,7 +132,7 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
                 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
       >
         <ComboboxOption v-for="option in filtered"
-                        :key="rowItem.edit?.options?.id(option)"
+                        :key="settings.options?.id(option)"
                         :value="option"
                         as="template"
                         v-slot="{ active, selected }"
@@ -137,8 +144,8 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
               <span class="truncate" :class="selected && 'font-semibold'">
                 {{ getDisplayValue(option) }}
               </span>
-              <span v-if="rowItem.edit?.options?.displaySub" class="ml-2 mr-2 truncate text-[0.5rem] text-line">
-                {{ props.rowItem.edit?.options?.displaySub(option) }}
+              <span v-if="settings.options?.displaySub" class="ml-2 mr-2 truncate text-[0.5rem] text-line">
+                {{ settings.options?.displaySub(option) }}
               </span>
             </div>
 
