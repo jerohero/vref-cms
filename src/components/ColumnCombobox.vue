@@ -60,7 +60,14 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
   })
 
   const initSelectedValue = () => {
-    if (!props.rowItem) return
+    if (!props.rowItem) {
+      selected.value = data.value[0]
+      emit('change', {
+        key: props.rowItem?.key || props.createSettings?.key,
+        value: data.value[0]
+      })
+      return
+    }
 
     selected.value = data.value.find((item: any) =>
         (item?.id || item) === (props.rowItem.value.id || props.rowItem.value)
@@ -88,7 +95,7 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
     toast.warning(`This field has a maximum of ${ props.minItems } values!`)
   })
 
-  watch(selected, (from ,to) => {
+  watch(selected, (from, to) => {
     if (!to) return // None selected
 
     emit('change', {

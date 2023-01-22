@@ -81,7 +81,8 @@
         />
         <ColumnInput
             v-if="rowItem.edit?.type === 'input-text'"
-            :rowItem="rowItem"
+            :col-key="rowItem.key"
+            :value="rowItem.value"
             @change="onChange"
         />
       </div>

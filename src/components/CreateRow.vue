@@ -2,21 +2,28 @@
   import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
   import ColumnCombobox from "@/components/ColumnCombobox.vue";
   import CustomButton from "@/components/CustomButton.vue";
+  import ColumnInput from "@/components/ColumnInput.vue";
 
   const props = defineProps<{
     open: boolean,
     createSettings: any
   }>()
 
-  const emit = defineEmits(['close'])
+  const emit = defineEmits(['close', 'create'])
+
+  let newObject: any = {}
 
   const onClose = () => {
     emit('close')
+    newObject = {}
   }
 
   const onChange = (emitted: { key: string, value: any }) => {
-    console.log(emitted)
-    // editedValue[emitted.key].value = emitted.value
+    newObject[emitted.key] = emitted.value
+  }
+
+  const onSave = () => {
+    emit('create', newObject)
   }
 </script>
 
@@ -74,14 +81,10 @@
                           {{ createSettings[field].label }}
                         </label>
                         <div class="mt-1 sm:col-span-2 sm:mt-0">
-                          <input
+                          <ColumnInput
                               v-if="createSettings[field].type === 'input-text'"
-                              type="text"
-                              v-on:input=""
-                              :name="createSettings[field].key"
-                              :id="createSettings[field].key"
-                              class="block w-full h-full px-3 py-2 rounded-md bg-foreground border border-text text-base
-                            focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                              :col-key="createSettings[field].key"
+                              @change="onChange"
                           />
                           <ColumnCombobox
                               v-if="createSettings[field].type === 'search-single'"
@@ -93,11 +96,13 @@
                     </div>
                     <div class="mt-4 flex flex-row-reverse gap-4 mt-48">
                       <CustomButton
-                          :text="'Confirm'"
-                          :on-click="confirm"
+                          @click="onSave"
+                          text="Add"
+                          :on-click="onSave"
                           is-primary
                       />
                       <CustomButton
+                          @click="onClose"
                           text="Cancel"
                       />
                     </div>

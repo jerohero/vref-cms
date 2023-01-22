@@ -75,11 +75,6 @@
       label: 'Last name',
       ...columnInputs.lastName
     },
-    userType: {
-      key: 'userType',
-      label: 'Role',
-      ...columnInputs.userType
-    },
     organization: {
       key: 'organization',
       label: 'Organization',

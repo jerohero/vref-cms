@@ -70,6 +70,24 @@
     }
   }
 
+  const onCreateRow = async (createdRow: any) => {
+    try {
+      const res = await axios.post(
+          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }`,
+          createdRow,
+          {
+            headers: { 'Authorization': userStore.bearerToken }
+          }
+      )
+
+      rows.value.push(props.getRowObject(res.data))
+
+      toast.success('Row has been added successfully!')
+    } catch(e: any) {
+      toast.error(e.response.statusText)
+    }
+  }
+
   const dataToRows = (values: any[]) => {
     const output = []
 
@@ -123,6 +141,7 @@
       :open="isCreatingRow"
       :create-settings="createSettings"
       @close="onCloseCreatingRow"
+      @create="onCreateRow"
     />
     <TableTop
       :results-length="rows.length"
