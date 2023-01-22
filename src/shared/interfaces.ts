@@ -15,8 +15,5 @@ export interface Column {
       displaySub?: (value: any) => string, // Defines how the option's secondary display value is created
       queryable: (value: any) => string, // Defines how the option's queryable value is created
     }
-  },
-  create?: { // Settings for column when creating
-
   }
 }

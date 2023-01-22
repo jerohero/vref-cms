@@ -152,7 +152,6 @@
   <div class="mx-10 my-7 min-h-full">
     <EntityTitle
         :title="title"
-        :user="userStore.user"
     />
     <EntityContent
         :columns="columns"

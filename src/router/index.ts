@@ -1,19 +1,21 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/user'
+import TrainingsView from '@/views/TrainingsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: () => import('../views/HomeView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
       path: '/auth',
       name: 'auth',
       component: () => import('../views/AuthView.vue')
+    },
+    {
+      path: '/trainings',
+      alias: '/',
+      name: 'trainings',
+      component: () => TrainingsView,
+      meta: { requiresAuth: true }
     },
     {
       path: '/organizations',
@@ -25,12 +27,6 @@ const router = createRouter({
       path: '/users',
       name: 'users',
       component: () => import('../views/UsersView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/trainings',
-      name: 'trainings',
-      component: () => import('../views/TrainingsView.vue'),
       meta: { requiresAuth: true }
     },
     {

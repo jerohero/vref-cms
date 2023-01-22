@@ -17,6 +17,7 @@ interface State {
   user: Ref<User>,
   token: Ref<string>,
   isAuthenticated: ComputedRef<boolean>,
+  isSuperAdmin: ComputedRef<boolean>,
   bearerToken: ComputedRef<string>,
   login: (email: string, password: string) => Promise<void>,
   logout: () => void
@@ -30,6 +31,7 @@ export const useUserStore = defineStore('user', (): State => {
   const user = ref<User>(emptyUser)
   const token = ref<string>('')
   const isAuthenticated = computed(() => !!token.value)
+  const isSuperAdmin = computed(() => user.value.userType === 'SuperAdmin')
   const bearerToken = computed(() => `Bearer ${ token.value }`)
   const router = useRouter()
 
@@ -53,6 +55,7 @@ export const useUserStore = defineStore('user', (): State => {
     user,
     token,
     isAuthenticated,
+    isSuperAdmin,
     bearerToken,
     login,
     logout

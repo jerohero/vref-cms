@@ -1,11 +1,13 @@
 <script setup lang="ts">
+  import {useUserStore} from "@/stores/user";
+
   const props = defineProps<{
-    title: string,
-    user: any
+    title: string
   }>()
 
-  const isSuperAdmin = props.user.userType === 'SuperAdmin'
-  const organization = isSuperAdmin ? 'Super Admin' : props.user.organization?.name
+  const userStore = useUserStore()
+
+  const organization = userStore.isSuperAdmin ? 'Super Admin' : userStore.user.organization?.name
 </script>
 
 <template>
@@ -14,7 +16,7 @@
       {{ title }}
     </h2>
     <div class="my-auto">
-      <span class="text-text text-xs px-1.5 py-1 rounded inline" :class="isSuperAdmin ? 'bg-primary' : 'bg-secondary'">
+      <span class="text-text text-xs px-1.5 py-1 rounded inline" :class="userStore.isSuperAdmin ? 'bg-primary' : 'bg-secondary'">
         {{ organization }}
       </span>
     </div>
