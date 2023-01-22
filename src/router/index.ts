@@ -34,21 +34,15 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/ai',
-      name: 'ai',
-      component: () => import('../views/TrainingsView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
       path: '/event-types',
       name: 'event-types',
-      component: () => import('../views/TrainingsView.vue'),
+      component: () => import('../views/EventTypesView.vue'),
       meta: { requiresAuth: true }
     },
     {
       path: '/ecam-messages',
       name: 'ecam-messages',
-      component: () => import('../views/TrainingsView.vue'),
+      component: () => import('../views/EcamMessagesView.vue'),
       meta: { requiresAuth: true }
     }
   ]
