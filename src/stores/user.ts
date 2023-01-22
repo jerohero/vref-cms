@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
 import { computed, ref } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from "@/shared/axios";
 
 interface User {
   id: number,
@@ -36,10 +36,11 @@ export const useUserStore = defineStore('user', (): State => {
   const router = useRouter()
 
   const login = async (email: string, password: string) => {
-    const res = await axios.post('https://vrefsolutions-api.azurewebsites.net/api/user/login', {
-      email: email,
-      password: password
-    })
+    const res = await axios()
+      .post('user/login', {
+        email: email,
+        password: password
+      })
 
     user.value = res.data.user
     token.value = res.data.accessToken

@@ -2,11 +2,11 @@
   import EntityTable from '@/components/EntityTable.vue'
   import TableTop from '@/components/TableTop.vue'
   import { onMounted, ref } from 'vue'
-  import axios from 'axios'
   import { useUserStore}  from '@/stores/user'
   import { useTableStore } from '@/stores/table'
   import { useToast}  from 'vue-toastification'
-  import CreateRow from "@/components/CreateRow.vue";
+  import CreateRow from '@/components/CreateRow.vue'
+  import axios from '@/shared/axios'
 
   const props = defineProps<{
     route: string,
@@ -30,9 +30,8 @@
       isFetching.value = true
 
       try {
-        const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + props.route, {
-          headers: { 'Authorization': userStore.bearerToken }
-        })
+        const res = await axios(true)
+            .get(props.route)
 
         isFetching.value = false
 
@@ -50,13 +49,11 @@
 
   const updateRow = async (updatedRow: any) => {
     try {
-      await axios.put(
-          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ updatedRow.id?.value }`,
-          props.getUpdateObject(updatedRow),
-          {
-            headers: { 'Authorization': userStore.bearerToken }
-          }
-      )
+      await axios(true)
+          .put(
+              `${ props.route }/${ updatedRow.id?.value }`,
+              props.getUpdateObject(updatedRow)
+          )
 
       const rowIndex = rows.value.map((row) => row.id.value).indexOf(updatedRow.id.value)
       for (const key in rows.value[rowIndex]) {
@@ -71,12 +68,8 @@
 
   const deleteRow = async (deletedRow: any) => {
     try {
-      await axios.delete(
-          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ deletedRow.id.value }`,
-          {
-            headers: { 'Authorization': userStore.bearerToken }
-          }
-      )
+      await axios(true)
+          .delete(`${ props.route }/${ deletedRow.id.value }`)
 
       rows.value = rows.value.filter((row) => row.id.value !== deletedRow.id.value)
 
@@ -88,13 +81,8 @@
 
   const onCreateRow = async (createdRow: any) => {
     try {
-      const res = await axios.post(
-          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }`,
-          createdRow,
-          {
-            headers: { 'Authorization': userStore.bearerToken }
-          }
-      )
+      const res = await axios(true)
+          .post(props.route, createdRow)
 
       isCreatingRow.value = false
 

@@ -8,7 +8,7 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
     ComboboxOptions,
   } from '@headlessui/vue'
   import { useToast } from 'vue-toastification'
-  import axios from 'axios'
+  import axios from '../shared/axios'
   import { useUserStore } from '@/stores/user'
 
   const props = defineProps<{
@@ -43,9 +43,8 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
 
   onMounted(async () => {
     if (settings.options?.fetchUrl) {
-      const res = await axios.get('https://vrefsolutions-api.azurewebsites.net/api' + settings.options.fetchUrl, {
-        headers: { 'Authorization': userStore.bearerToken }
-      })
+      const res = await axios(true)
+          .get(settings.options.fetchUrl)
       data.value = res.data
     } else if (settings.options?.value) {
       data.value = settings.options?.value
