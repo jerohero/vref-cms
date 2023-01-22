@@ -13,7 +13,6 @@
   const userStore = useUserStore()
 
   const title = 'ECAM Messages'
-  const organization = userStore.user.organization.name
 
   const columns = [
     'Name', 'Accepted',
@@ -93,7 +92,7 @@
   <div class="mx-10 my-7 min-h-full">
     <EntityTitle
         :title="title"
-        :organization="organization"
+        :user="userStore.user"
     />
     <EntityContent
         :columns="columns"

@@ -14,7 +14,6 @@
   const userStore = useUserStore()
 
   const title = 'Event Types'
-  const organization = userStore.user.organization.name
 
   const columns = [
     'Name', 'Message', 'Symbol'
@@ -102,7 +101,7 @@
   <div class="mx-10 my-7 min-h-full">
     <EntityTitle
         :title="title"
-        :organization="organization"
+        :user="userStore.user"
     />
     <EntityContent
         :columns="columns"

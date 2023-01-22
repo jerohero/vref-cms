@@ -16,7 +16,6 @@
   const userStore = useUserStore()
 
   const title = 'Users'
-  const organization = userStore.user.organization?.name
 
   const columns = [
     'Email', 'First name', 'Last name', 'Role', 'Organization'
@@ -153,7 +152,7 @@
   <div class="mx-10 my-7 min-h-full">
     <EntityTitle
         :title="title"
-        :organization="organization"
+        :user="userStore.user"
     />
     <EntityContent
         :columns="columns"

@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import EntityTable from '@/components/EntityTable.vue'
   import TableTop from '@/components/TableTop.vue'
-  import Pagination from '@/components/Pagination.vue'
   import { onMounted, ref } from 'vue'
   import axios from 'axios'
   import { useUserStore}  from '@/stores/user'
@@ -155,7 +154,7 @@
 </script>
 
 <template>
-  <div class="bg-foreground rounded-[3px] text-text mt-5">
+  <div class="bg-foreground rounded-[3px] text-text mt-5 pb-3">
     <CreateRow
       v-if="props.createSettings"
       :open="isCreatingRow"
@@ -175,7 +174,6 @@
       @update-row="updateRow"
       @delete-row="deleteRow"
     />
-    <Pagination/>
   </div>
 </template>
 
