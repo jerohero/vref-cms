@@ -4,7 +4,8 @@
   import { useTableStore } from '@/stores/table'
 
   defineProps<{
-    resultsLength: number
+    resultsLength: number,
+    showAdd: boolean
   }>()
 
   const tableStore = useTableStore()
@@ -50,6 +51,7 @@
     <div class="flex gap-8">
       <Search :on-input="onQuery"/>
       <CustomButton
+          v-if="showAdd"
           text="Add new"
           is-primary
           :on-click="onCreateRowClick"

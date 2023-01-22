@@ -23,11 +23,26 @@
   ]
   const route = '/training'
 
+  const columnInputs = {
+    students: {
+      type: 'search-multiple',
+      options: {
+        id: (student: any) => student.id,
+        fetchUrl: '/user',
+        display: (student: any) => Array.isArray(student)
+            ? student?.map((student: any) => `${ student?.firstName } ${ student?.lastName }`).join(', ')
+            : `${ student?.firstName } ${ student?.lastName }`,
+        queryable: (student: any) => `${ student?.firstName } ${ student?.lastName }`,
+        displaySub: (student: any) => student.email
+      }
+    }
+  }
+
   const getUpdateObject = (updated: any) => {
     const { students } = updated
 
     return {
-      students: students.map((student: any) => student.id)
+      students: students.value.map((student: any) => student.id)
     }
   }
 
@@ -64,15 +79,7 @@
         value: training.students,
         editable: true,
         queryable: true,
-        edit: {
-          type: 'search-multiple',
-          options: {
-            id: (student: any) => student.id,
-            fetchUrl: '/user',
-            queryable: (student: any) => `${ student?.firstName } ${ student?.lastName }`,
-            displaySub: (student: any) => student.email
-          }
-        }
+        edit: columnInputs.students
       },
       date: {
         key: 'date',

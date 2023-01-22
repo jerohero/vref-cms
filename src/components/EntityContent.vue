@@ -14,7 +14,7 @@
     columns: string[],
     getRowObject(values: any): any,
     getUpdateObject(updated: any): any,
-    createSettings: any
+    createSettings?: any
   }>()
 
   const userStore = useUserStore()
@@ -157,6 +157,7 @@
 <template>
   <div class="bg-foreground rounded-[3px] text-text mt-5">
     <CreateRow
+      v-if="props.createSettings"
       :open="isCreatingRow"
       :create-settings="createSettings"
       @close="onCloseCreatingRow"
@@ -164,6 +165,7 @@
     />
     <TableTop
       :results-length="rows.length"
+      :show-add="!!createSettings"
       @create-click="onOpenCreatingRow"
     />
     <EntityTable
