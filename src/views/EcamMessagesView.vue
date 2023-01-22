@@ -20,13 +20,43 @@
   ]
   const route = '/ecam-message'
 
+  const columnInputs = {
+    name: {
+      type: 'input-text'
+    },
+    isAccepted: {
+      type: 'search-single',
+      options: {
+        id: (isAccepted: any) => isAccepted.display,
+        value: [
+          { display: 'True', id: true },
+          { display: 'False', id: false }
+        ],
+        display: (isAccepted: any) => isAccepted.display,
+        queryable: (isAccepted: any) => isAccepted.display
+      }
+    },
+  }
+
+  const createSettings = {
+    name: {
+      key: 'name',
+      label: 'Name',
+      ...columnInputs.name
+    },
+    isAccepted: {
+      key: 'isAccepted',
+      label: 'Accepted',
+      ...columnInputs.isAccepted
+    }
+  }
+
   const getUpdateObject = (updated: any) => {
-    const { name, message, symbol } = updated
+    const { name, isAccepted } = updated
 
     return {
       name: name.value,
-      message: message.value,
-      symbol: symbol.value
+      isAccepted: isAccepted.value.id
     }
   }
 
@@ -43,15 +73,17 @@
         key: 'name',
         display: (name: string) => name,
         value: ecamMessage.name,
-        editable: false,
-        queryable: true
+        editable: true,
+        queryable: true,
+        edit: columnInputs.name
       },
       isAccepted: {
         key: 'isAccepted',
-        display: (isAccepted: string) => isAccepted,
+        display: (isAccepted: any) => isAccepted ? 'True' : 'False',
         value: ecamMessage.isAccepted,
-        editable: false,
-        queryable: true
+        editable: true,
+        queryable: true,
+        edit: columnInputs.isAccepted
       }
     }
   }
@@ -68,6 +100,7 @@
         :route="route"
         :get-row-object="getRowObject"
         :get-update-object="getUpdateObject"
+        :create-settings="createSettings"
     />
   </div>
 </template>

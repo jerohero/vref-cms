@@ -21,6 +21,36 @@
   ]
   const route = '/event-type'
 
+  const columnInputs = {
+    name: {
+      type: 'input-text'
+    },
+    message: {
+      type: 'input-text'
+    },
+    symbol: {
+      type: 'input-text'
+    }
+  }
+
+  const createSettings = {
+    name: {
+      key: 'name',
+      label: 'Name',
+      ...columnInputs.name
+    },
+    message: {
+      key: 'message',
+      label: 'Message',
+      ...columnInputs.message
+    },
+    symbol: {
+      key: 'symbol',
+      label: 'Symbol',
+      ...columnInputs.symbol
+    }
+  }
+
   const getUpdateObject = (updated: any) => {
     const { name, message, symbol } = updated
 
@@ -38,28 +68,31 @@
         display: (id: string) => id,
         value: eventType.id,
         editable: false,
-        queryable: true,
+        queryable: true
       },
       name: {
         key: 'name',
         display: (name: string) => name,
         value: eventType.name,
-        editable: false,
-        queryable: true
+        editable: true,
+        queryable: true,
+        edit: columnInputs.name
       },
       message: {
         key: 'message',
         display: (message: string) => message,
         value: eventType.message,
-        editable: false,
-        queryable: true
+        editable: true,
+        queryable: true,
+        edit: columnInputs.message
       },
       symbol: {
         key: 'symbol',
         display: (symbol: string) => symbol,
         value: eventType.symbol,
-        editable: false,
-        queryable: true
+        editable: true,
+        queryable: true,
+        edit: columnInputs.symbol
       }
     }
   }
@@ -76,6 +109,7 @@
         :route="route"
         :get-row-object="getRowObject"
         :get-update-object="getUpdateObject"
+        :create-settings="createSettings"
     />
   </div>
 </template>

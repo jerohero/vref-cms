@@ -52,7 +52,7 @@
   const updateRow = async (updatedRow: any) => {
     try {
       await axios.put(
-          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ updatedRow.id.value }`,
+          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ updatedRow.id?.value }`,
           props.getUpdateObject(updatedRow),
           {
             headers: { 'Authorization': userStore.bearerToken }
