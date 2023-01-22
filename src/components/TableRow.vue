@@ -13,7 +13,7 @@
   const isDeleting = ref<boolean>()
   let editedValue = JSON.parse(JSON.stringify(props.rowData))
 
-  const emit = defineEmits(['update'])
+  const emit = defineEmits(['update', 'delete'])
 
   const getRowDataWithoutId = () => {
     let {id, ...withoutId} = props.rowData
@@ -48,6 +48,8 @@
 
   const onDeleteConfirm = () => {
     isDeleting.value = false
+
+    emit('delete', props.rowData)
   }
 
   const onChange = (emitted: { key: string, value: any }) => {

@@ -70,6 +70,23 @@
     }
   }
 
+  const deleteRow = async (deletedRow: any) => {
+    try {
+      await axios.delete(
+          `https://vrefsolutions-api.azurewebsites.net/api${ props.route }/${ deletedRow.id.value }`,
+          {
+            headers: { 'Authorization': userStore.bearerToken }
+          }
+      )
+
+      rows.value = rows.value.filter((row) => row.id.value !== deletedRow.id.value)
+
+      toast.success('Row has been deleted successfully!')
+    } catch(e: any) {
+      toast.error(e.response.statusText)
+    }
+  }
+
   const onCreateRow = async (createdRow: any) => {
     try {
       const res = await axios.post(
@@ -79,6 +96,8 @@
             headers: { 'Authorization': userStore.bearerToken }
           }
       )
+
+      isCreatingRow.value = false
 
       rows.value.push(props.getRowObject(res.data))
 
@@ -152,6 +171,7 @@
       :rows="tableStore.query ? filteredRows : rows"
       :is-fetching="isFetching"
       @update-row="updateRow"
+      @delete-row="deleteRow"
     />
     <Pagination/>
   </div>

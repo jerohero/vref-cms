@@ -8,10 +8,14 @@
     isFetching: boolean
   }>()
 
-  const emit = defineEmits(['updateRow'])
+  const emit = defineEmits(['updateRow', 'deleteRow'])
 
-  const update = (updated: any) => {
+  const updateRow = (updated: any) => {
     emit('updateRow', updated)
+  }
+
+  const deleteRow = (deleted: any) => {
+    emit('deleteRow', deleted)
   }
 </script>
 
@@ -43,7 +47,8 @@
                   v-for="row in rows"
                   v-bind:key="row.id"
                   :row-data="row"
-                  @update="update"
+                  @update="updateRow"
+                  @delete="deleteRow"
         />
       </tbody>
     </table>
