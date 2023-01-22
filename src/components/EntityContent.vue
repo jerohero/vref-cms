@@ -164,7 +164,7 @@
       @create="onCreateRow"
     />
     <TableTop
-      :results-length="rows.length"
+      :results-length="tableStore.query ? filteredRows.length : rows.length"
       :show-add="!!createSettings"
       @create-click="onOpenCreatingRow"
     />

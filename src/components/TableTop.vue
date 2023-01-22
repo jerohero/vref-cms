@@ -29,14 +29,6 @@
       <p class="text-sm text-text">
         Showing
         <span class="font-medium">
-          1
-        </span>
-        to
-        <span class="font-medium">
-          10
-        </span>
-        of
-        <span class="font-medium">
           {{ resultsLength }}
         </span>
         results

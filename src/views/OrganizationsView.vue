@@ -19,6 +19,20 @@
   ]
   const route = '/organization'
 
+  const columnInputs = {
+    name: {
+      type: 'input-text'
+    }
+  }
+
+  const createSettings = {
+    name: {
+      key: 'name',
+      label: 'Name',
+      ...columnInputs.name
+    }
+  }
+
   const getUpdateObject = (updated: any) => {
     const { name } = updated
 
@@ -42,9 +56,7 @@
         value: training.name,
         editable: true,
         queryable: true,
-        edit: {
-          type: 'input-text'
-        },
+        edit: columnInputs.name
       }
     }
   }
@@ -61,6 +73,7 @@
         :route="route"
         :get-row-object="getRowObject"
         :get-update-object="getUpdateObject"
+        :create-settings="createSettings"
     />
   </div>
 </template>
