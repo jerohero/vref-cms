@@ -1,26 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import TrainingsView from '@/views/TrainingsView.vue'
+import AuthView from '@/views/AuthView.vue'
+import OrganizationsView from '@/views/OrganizationsView.vue'
+import UsersView from '@/views/UsersView.vue'
+import EventTypesView from '@/views/EventTypesView.vue'
+import EcamMessagesView from '@/views/EcamMessagesView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/auth',
+      path: '/',
+      alias: '/auth',
       name: 'auth',
-      component: () => import('../views/AuthView.vue')
+      component: AuthView
     },
     {
       path: '/trainings',
-      alias: '/',
       name: 'trainings',
-      component: () => TrainingsView,
+      component: TrainingsView,
       meta: { requiresAuth: true }
     },
     {
       path: '/organizations',
       name: 'organizations',
-      component: () => import('../views/OrganizationsView.vue'),
+      component: OrganizationsView,
       meta: {
         requiresAuth: true,
         requiresSuperAdmin: true
@@ -29,36 +34,38 @@ const router = createRouter({
     {
       path: '/users',
       name: 'users',
-      component: () => import('../views/UsersView.vue'),
+      component: UsersView,
       meta: { requiresAuth: true }
     },
     {
       path: '/event-types',
       name: 'event-types',
-      component: () => import('../views/EventTypesView.vue'),
+      component: EventTypesView,
       meta: { requiresAuth: true }
     },
     {
       path: '/ecam-messages',
       name: 'ecam-messages',
-      component: () => import('../views/EcamMessagesView.vue'),
+      component: EcamMessagesView,
       meta: { requiresAuth: true }
     }
   ]
 })
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
   const userStore = useUserStore()
 
   if (to.meta.requiresAuth && !userStore.isAuthenticated) {
-    return next('/auth')
+    return {
+      name: 'auth'
+    }
   }
 
   if (to.meta.requiresSuperAdmin && !userStore.isSuperAdmin) {
-    return next(from.path)
+    return false
   }
 
-  return next()
+  return true
 })
 
 export default router

@@ -5,7 +5,7 @@
   import { computed } from 'vue'
 
   const route = useRoute()
-  const inAuth = computed(() => route.path === '/auth')
+  const inAuth = computed(() => route.path === '/auth' || route.path === '/')
 </script>
 
 <template>

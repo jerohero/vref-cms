@@ -3,14 +3,13 @@
   import CustomButton from '@/components/CustomButton.vue'
   import FormItem from '@/components/FormItem.vue'
   import { useUserStore } from '@/stores/user'
-  import { useRouter } from 'vue-router'
   import {useToast} from 'vue-toastification'
+  import router from '@/router';
 
   const email = ref<string>('')
   const password = ref<string>('')
 
   const userStore = useUserStore()
-  const router = useRouter()
   const toast = useToast()
 
   const login = () => {
@@ -20,7 +19,7 @@
         return
       }
 
-      router.push({ path: '/' })
+      router.push({ path: '/trainings' })
     })
   }
 </script>
