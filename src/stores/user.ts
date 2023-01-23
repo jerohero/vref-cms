@@ -3,6 +3,7 @@ import { computed, ref } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
 import axios from '@/shared/axios'
 import router from '@/router'
+import { useRoute } from 'vue-router'
 
 interface User {
   id: number,
@@ -18,6 +19,7 @@ interface State {
   token: Ref<string>,
   isAuthenticated: ComputedRef<boolean>,
   isSuperAdmin: ComputedRef<boolean>,
+  inAuth: ComputedRef<boolean>,
   bearerToken: ComputedRef<string>,
   login: (email: string, password: string) => Promise<void>,
   logout: () => void
@@ -28,10 +30,13 @@ const emptyUser = {
 }
 
 export const useUserStore = defineStore('user', (): State => {
+  const route = useRoute()
+
   const user = ref<User>(emptyUser)
   const token = ref<string>('')
   const isAuthenticated = computed(() => !!token.value)
   const isSuperAdmin = computed(() => user.value.userType === 'SuperAdmin')
+  const inAuth = computed(() => route.path === '/auth' || route.path === '/')
   const bearerToken = computed(() => `Bearer ${ token.value }`)
 
   const login = async (email: string, password: string) => {
@@ -56,6 +61,7 @@ export const useUserStore = defineStore('user', (): State => {
     token,
     isAuthenticated,
     isSuperAdmin,
+    inAuth,
     bearerToken,
     login,
     logout

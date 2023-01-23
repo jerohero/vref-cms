@@ -46,6 +46,11 @@
   }
 
   const updateRow = async (updatedRow: any) => {
+    if (!compareObjectKeysToCreatableKeys(updatedRow)) {
+      toast.warning('All fields must be filled')
+      return
+    }
+
     try {
       await axios(true)
           .put(
@@ -78,6 +83,11 @@
   }
 
   const onCreateRow = async (createdRow: any) => {
+    if (!compareObjectKeysToCreatableKeys(createdRow)) {
+      toast.warning('All fields must be filled')
+      return
+    }
+
     try {
       const res = await axios(true)
           .post(props.route, createdRow)
@@ -90,6 +100,17 @@
     } catch(e: any) {
       toast.error(e.response.statusText)
     }
+  }
+
+  const compareObjectKeysToCreatableKeys = (object: any) => {
+    for (const creatableColumn in props.createSettings) {
+      if (object.hasOwnProperty(creatableColumn) || !!object[creatableColumn])
+        continue
+
+      return false
+    }
+
+    return true
   }
 
   const dataToRows = (values: any[]) => {

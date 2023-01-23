@@ -74,7 +74,7 @@
                   Add new
                 </DialogTitle>
                 <div class="space-y-5 pt-3 w-full">
-                  <form class="flex flex-col justify-between">
+                  <form class="flex flex-col justify-between" onsubmit="return false">
                     <div class="items-start border-t border-line pt-5">
                       <div
                           v-for="field in Object.keys(createSettings)"
