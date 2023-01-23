@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
-import { useRouter } from 'vue-router'
 import axios from '@/shared/axios'
+import router from '@/router'
 
 interface User {
   id: number,
@@ -33,7 +33,6 @@ export const useUserStore = defineStore('user', (): State => {
   const isAuthenticated = computed(() => !!token.value)
   const isSuperAdmin = computed(() => user.value.userType === 'SuperAdmin')
   const bearerToken = computed(() => `Bearer ${ token.value }`)
-  const router = useRouter()
 
   const login = async (email: string, password: string) => {
     const res = await axios()

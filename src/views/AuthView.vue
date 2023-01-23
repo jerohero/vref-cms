@@ -4,7 +4,7 @@
   import FormItem from '@/components/FormItem.vue'
   import { useUserStore } from '@/stores/user'
   import {useToast} from 'vue-toastification'
-  import router from '@/router';
+  import router from '@/router'
 
   const email = ref<string>('')
   const password = ref<string>('')
