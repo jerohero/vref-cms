@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
 import type { Ref, ComputedRef } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from "@/shared/axios";
+import axios from '@/shared/axios'
 
 interface User {
   id: number,

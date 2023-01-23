@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import EntityTitle from '@/components/EntityTitle.vue'
   import EntityContent from '@/components/EntityContent.vue'
-  import { useUserStore } from '@/stores/user'
   import type { Column } from '@/shared/interfaces';
 
   interface EventTypeColumns {
@@ -10,8 +9,6 @@
     message: Column,
     symbol: Column
   }
-
-  const userStore = useUserStore()
 
   const title = 'Event Types'
 

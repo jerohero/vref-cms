@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import EntityTitle from '@/components/EntityTitle.vue'
   import EntityContent from '@/components/EntityContent.vue'
-  import { useUserStore } from '@/stores/user'
   import dayjs from 'dayjs'
   import type { Column } from '@/shared/interfaces'
 
@@ -12,8 +11,6 @@
     students: Column,
     date: Column
   }
-
-  const userStore = useUserStore()
 
   const title = 'Trainings'
 

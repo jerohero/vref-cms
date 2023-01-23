@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {computed, onMounted, ref, toRaw, watch} from 'vue'
+import {computed, onMounted, ref, watch} from 'vue'
   import {
     Combobox,
     ComboboxButton,
@@ -9,7 +9,6 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
   } from '@headlessui/vue'
   import { useToast } from 'vue-toastification'
   import axios from '../shared/axios'
-  import { useUserStore } from '@/stores/user'
 
   const props = defineProps<{
     rowItem?: any, // Use for editing
@@ -22,7 +21,6 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
   const settings = props.rowItem?.edit || props.createSettings
 
   const toast = useToast()
-  const userStore = useUserStore()
   const emit = defineEmits(['change'])
 
   const data = ref()
@@ -138,7 +136,7 @@ import {computed, onMounted, ref, toRaw, watch} from 'vue'
                 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
       >
         <ComboboxOption v-for="option in filtered"
-                        :key="settings.options?.id(option)"
+                        v-bind:key="settings.options?.id(option)"
                         :value="option"
                         as="template"
                         v-slot="{ active, selected }"

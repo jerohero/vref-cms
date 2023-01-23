@@ -1,24 +1,12 @@
 <script setup lang="ts">
-  import { ref } from "vue";
+  import { ref } from 'vue'
+  import type { INavSidebarItem } from '@/shared/interfaces'
 
   const props = defineProps<{
-    item: ISidebarItem,
+    item: INavSidebarItem,
     activeRoute?: string,
     isFoldable?: boolean
   }>()
-
-  export interface ISidebarItem {
-    name: string,
-    href: string,
-    icon: string,
-    subItems?: ISidebarSubItem[],
-    cb?(): void
-  }
-
-  export interface ISidebarSubItem {
-    name: string,
-    href: string
-  }
 
   const isFolded = ref<boolean>(false)
 
@@ -47,6 +35,7 @@
       <ul class="list-disc">
         <RouterLink :to="subItem.href"
                     v-for="subItem in item.subItems"
+                    v-bind:key="subItem.name"
                     class="text-sm hover:bg-secondaryHover pl-20 py-2 text-textGrey flex flex-col
                       transition-colors ease-in duration-100 animate-fadeIn"
                     :class="props.activeRoute === subItem.href ? 'bg-secondaryActive text-text' : ''"

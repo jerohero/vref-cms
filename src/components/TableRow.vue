@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import IconButton from '@/components/IconButton.vue'
-  import {ref, toRaw, toRef} from 'vue'
+  import { ref } from 'vue'
   import ConfirmationModal from '@/components/ConfirmationModal.vue'
   import ColumnInput from '@/components/ColumnInput.vue'
   import ColumnCombobox from '@/components/ColumnCombobox.vue'
@@ -16,7 +16,7 @@
   const emit = defineEmits(['update', 'delete'])
 
   const getRowDataWithoutId = () => {
-    let {id, ...withoutId} = props.rowData
+    let { id, ...withoutId } = props.rowData
 
     return withoutId
   }

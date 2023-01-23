@@ -1,10 +1,10 @@
 <script setup lang="ts">
   import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-  import ColumnCombobox from "@/components/ColumnCombobox.vue";
-  import CustomButton from "@/components/CustomButton.vue";
-  import ColumnInput from "@/components/ColumnInput.vue";
+  import ColumnCombobox from '@/components/ColumnCombobox.vue'
+  import CustomButton from '@/components/CustomButton.vue'
+  import ColumnInput from '@/components/ColumnInput.vue'
 
-  const props = defineProps<{
+  defineProps<{
     open: boolean,
     createSettings: any
   }>()
@@ -74,9 +74,13 @@
                   Add new
                 </DialogTitle>
                 <div class="space-y-5 pt-3 w-full">
-                  <div class="flex flex-col justify-between">
+                  <form class="flex flex-col justify-between">
                     <div class="items-start border-t border-line pt-5">
-                      <div v-for="field in Object.keys(createSettings)" class="my-2">
+                      <div
+                          v-for="field in Object.keys(createSettings)"
+                          v-bind:key="field"
+                          class="my-2"
+                      >
                         <label for="last-name" class="block text-sm font-medium text-gray-700 mt-px pt-2 mb-1">
                           {{ createSettings[field].label }}
                         </label>
@@ -106,7 +110,7 @@
                           text="Cancel"
                       />
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </DialogPanel>

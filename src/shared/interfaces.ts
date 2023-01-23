@@ -17,3 +17,16 @@ export interface Column {
     }
   }
 }
+
+export interface INavSidebarItem {
+  name: string,
+  href: string,
+  icon: string,
+  subItems?: INavSidebarSubItem[],
+  cb?(): void
+}
+
+export interface INavSidebarSubItem {
+  name: string,
+  href: string
+}

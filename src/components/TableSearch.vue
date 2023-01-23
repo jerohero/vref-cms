@@ -1,7 +1,11 @@
 <script setup lang="ts">
-  defineProps<{
+  const props = defineProps<{
     onInput: (query: string) => void
   }>()
+
+  const onInput = (input: any) => {
+    props.onInput(input.target.value)
+  }
 </script>
 
 <template>
@@ -15,7 +19,7 @@
       </div>
       <input name="search-vref"
              placeholder="Search.."
-             v-on:input="onInput($event.target.value)"
+             v-on:input="onInput"
              class="block w-full h-full py-2 rounded-md pl-10 bg-foreground border border-text text-base
              focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
       />

@@ -2,7 +2,6 @@
   import EntityTable from '@/components/EntityTable.vue'
   import TableTop from '@/components/TableTop.vue'
   import { onMounted, ref } from 'vue'
-  import { useUserStore}  from '@/stores/user'
   import { useTableStore } from '@/stores/table'
   import { useToast}  from 'vue-toastification'
   import CreateRow from '@/components/CreateRow.vue'
@@ -16,7 +15,6 @@
     createSettings?: any
   }>()
 
-  const userStore = useUserStore()
   const tableStore = useTableStore()
   const toast = useToast()
 

@@ -4,7 +4,7 @@
   import FormItem from '@/components/FormItem.vue'
   import { useUserStore } from '@/stores/user'
   import { useRouter } from 'vue-router'
-  import {useToast} from "vue-toastification";
+  import {useToast} from 'vue-toastification'
 
   const email = ref<string>('')
   const password = ref<string>('')
@@ -40,7 +40,7 @@
                     type="password" autocomplete="current-password"
           />
           <div class="pt-3">
-            <CustomButton text="Sign in" type="submit" full-width is-primary />
+            <CustomButton text="Sign in" full-width is-primary />
           </div>
         </form>
       </div>

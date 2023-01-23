@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import CustomButton from '@/components/CustomButton.vue'
-  import Search from '@/components/Search.vue'
   import { useTableStore } from '@/stores/table'
+  import TableSearch from '@/components/TableSearch.vue'
 
   defineProps<{
     resultsLength: number,
@@ -41,7 +41,7 @@
       </p>
     </div>
     <div class="flex gap-8">
-      <Search :on-input="onQuery"/>
+      <TableSearch :on-input="onQuery"/>
       <CustomButton
           v-if="showAdd"
           text="Add new"

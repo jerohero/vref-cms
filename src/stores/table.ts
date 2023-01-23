@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
-import type { Ref, ComputedRef } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+import type { Ref } from 'vue'
 
 interface State {
   query: Ref<string>

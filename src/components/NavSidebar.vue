@@ -1,22 +1,20 @@
 <script setup lang="ts">
-  import SidebarItem from '@/components/SidebarItem.vue'
-  import type { ISidebarItem } from '@/components/SidebarItem.vue'
+  import NavSidebarItem from '@/components/NavSidebarItem.vue'
   import { ref, watch } from 'vue'
   import { useRoute } from 'vue-router'
   import { useUserStore } from '@/stores/user'
-
-  defineProps<{ }>()
+  import type { INavSidebarItem } from '@/shared/interfaces'
 
   const route = useRoute()
   const userStore = useUserStore();
 
   const activeRoute = ref<string>('')
 
-  const routes: ISidebarItem[] = [
+  const routes: INavSidebarItem[] = [
     { name: 'Users', href: '/users', icon: 'person-outline' },
     { name: 'Trainings', href: '/trainings', icon: 'airplane-outline' }
   ]
-  const foldables: ISidebarItem[] = []
+  const foldables: INavSidebarItem[] = []
 
   if (userStore.isSuperAdmin) {
     routes.push({ name: 'Organizations', href: '/organizations', icon: 'people-outline' })
@@ -29,7 +27,7 @@
     )
   }
 
-  const signOutItem: ISidebarItem =
+  const signOutItem: INavSidebarItem =
       { name: 'Sign Out', href: '/', icon: 'log-out-outline', cb: () => { signOut() }}
 
   const signOut = () => {
@@ -46,13 +44,23 @@
               w-[var(--sidebar-width)] min-w-[15rem] h-full"
   >
     <div class="mt-16">
-      <RouterLink v-for="route in routes" :to="route.href">
-        <SidebarItem :item="route" :activeRoute="activeRoute"/>
+      <RouterLink
+          v-for="route in routes"
+          v-bind:key="route.href"
+          :to="route.href"
+      >
+        <NavSidebarItem :item="route" :activeRoute="activeRoute"/>
       </RouterLink>
-      <SidebarItem v-for="foldable in foldables" :item="foldable" :active-route="activeRoute" :is-foldable="true"/>
+      <NavSidebarItem
+          v-for="foldable in foldables"
+          v-bind:key="foldable.href"
+          :item="foldable"
+          :active-route="activeRoute"
+          :is-foldable="true"
+      />
     </div>
     <div class="mb-5">
-      <SidebarItem :item="signOutItem"/>
+      <NavSidebarItem :item="signOutItem"/>
     </div>
   </div>
 </template>

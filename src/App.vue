@@ -1,19 +1,17 @@
 <script setup lang="ts">
   import { RouterView, useRoute } from 'vue-router'
-  import Header from './components/Header.vue'
-  import Sidebar from '@/components/Sidebar.vue'
-  import { useUserStore } from '@/stores/user'
+  import NavHeader from './components/NavHeader.vue'
+  import NavSidebar from '@/components/NavSidebar.vue'
   import { computed } from 'vue'
 
-  const userStore = useUserStore()
   const route = useRoute()
   const inAuth = computed(() => route.path === '/auth')
 </script>
 
 <template>
   <div v-if="!inAuth">
-    <Header/>
-    <Sidebar/>
+    <NavHeader/>
+    <NavSidebar/>
   </div>
   <div
       class="text-text min-h-screen"

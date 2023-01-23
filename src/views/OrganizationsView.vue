@@ -1,15 +1,12 @@
 <script setup lang="ts">
   import EntityTitle from '@/components/EntityTitle.vue'
   import EntityContent from '@/components/EntityContent.vue'
-  import { useUserStore } from '@/stores/user'
-  import type { Column } from '@/shared/interfaces';
+  import type { Column } from '@/shared/interfaces'
 
   interface OrganizationColumns {
     id: Column,
     name: Column,
   }
-
-  const userStore = useUserStore()
 
   const title = 'Organizations'
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
   import TableRow from '@/components/TableRow.vue'
-  import Spinner from '@/components/Spinner.vue'
+  import LoadSpinner from '@/components/LoadSpinner.vue'
 
-  const props = defineProps<{
+  defineProps<{
     columns: string[],
     rows: any[],
     isFetching: boolean
@@ -37,19 +37,19 @@
           </th>
         </tr>
       </thead>
-      <tbody class="text-textDark w-full">
-        <div v-if="isFetching"
-             class="py-10 absolute right-[50%] left-[50%]"
-        >
-          <Spinner />
-        </div>
-        <TableRow v-if="!isFetching"
-                  v-for="row in rows"
-                  v-bind:key="row.id"
-                  :row-data="row"
-                  @update="updateRow"
-                  @delete="deleteRow"
-        />
+      <div v-if="isFetching"
+           class="py-10 absolute right-[50%] left-[50%]"
+      >
+        <LoadSpinner />
+      </div>
+      <tbody v-else class="text-textDark w-full">
+      <TableRow
+          v-for="row in rows"
+          v-bind:key="row.id"
+          :row-data="row"
+          @update="updateRow"
+          @delete="deleteRow"
+      />
       </tbody>
     </table>
   </div>

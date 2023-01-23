@@ -1,7 +1,6 @@
 <script setup lang="ts">
   import EntityTitle from '@/components/EntityTitle.vue'
   import EntityContent from '@/components/EntityContent.vue'
-  import { useUserStore } from '@/stores/user'
   import type { Column } from '@/shared/interfaces';
 
   interface EcamMessageColumns {
@@ -9,8 +8,6 @@
     name: Column,
     isAccepted: Column,
   }
-
-  const userStore = useUserStore()
 
   const title = 'ECAM Messages'
 
