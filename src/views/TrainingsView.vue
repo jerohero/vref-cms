@@ -75,7 +75,11 @@
         value: training.students,
         editable: true,
         queryable: true,
-        edit: columnInputs.students
+        edit: {
+          disabled: training.status === 'Processing' || training.status === 'Finished',
+          ...columnInputs.students
+        }
+        ,
       },
       date: {
         key: 'date',
