@@ -43,7 +43,7 @@
         key: 'id',
         display: (id: string) => id,
         value: training.id,
-        editable: false,
+        editable: true,
         queryable: true,
       },
       name: {

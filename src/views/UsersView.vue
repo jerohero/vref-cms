@@ -101,7 +101,7 @@
         key: 'id',
         display: (id: string) => id,
         value: user.id,
-        queryable: false,
+        queryable: true,
         editable: false,
       },
       email: {
@@ -132,7 +132,7 @@
         key: 'userType',
         display: (userType: string) => userType,
         value: user.userType,
-        queryable: false,
+        queryable: true,
         editable: true,
         edit: columnInputs.userType
       },

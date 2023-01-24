@@ -50,7 +50,7 @@
         key: 'id',
         display: (id: string) => id,
         value: training.id,
-        editable: false,
+        editable: true,
         queryable: false
       },
       status: {
@@ -58,7 +58,7 @@
         display: (status: string) => status,
         value: training.status,
         editable: false,
-        queryable: false
+        queryable: true
       },
       instructor: {
         key: 'instructor',
@@ -86,7 +86,7 @@
         display: (creationDateTime: string) => dayjs(creationDateTime).format('DD-MM-YYYY HH:mm'),
         value: trainingDate,
         editable: false,
-        queryable: false
+        queryable: true
       }
     }
   }
