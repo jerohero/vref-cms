@@ -48,7 +48,7 @@
     },
     organization: {
       type: 'search-single',
-      disabled: userStore.user.userType !== 'SuperAdmin',
+      disabled: !userStore.isSuperAdmin,
       options: {
         id: (organization: any) => organization.id,
         fetchUrl: '/organization',
@@ -77,6 +77,7 @@
     organization: {
       key: 'organization',
       label: 'Organization',
+      staticValue: !userStore.isSuperAdmin ? { id: userStore.user.organization.id } : null,
       ...columnInputs.organization
     },
   }

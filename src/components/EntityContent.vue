@@ -46,7 +46,7 @@
   }
 
   const updateRow = async (updatedRow: any) => {
-    if (!compareObjectKeysToCreatableKeys(updatedRow)) {
+    if (!validateInputObject(updatedRow)) {
       toast.warning('All fields must be filled')
       return
     }
@@ -83,7 +83,16 @@
   }
 
   const onCreateRow = async (createdRow: any) => {
-    if (!compareObjectKeysToCreatableKeys(createdRow)) {
+    for (const creatableColumn in props.createSettings) {
+      const staticValue = props.createSettings[creatableColumn].staticValue
+
+      if (!staticValue)
+        continue
+
+      createdRow[creatableColumn] = staticValue
+    }
+
+    if (!validateInputObject(createdRow)) {
       toast.warning('All fields must be filled')
       return
     }
@@ -102,7 +111,7 @@
     }
   }
 
-  const compareObjectKeysToCreatableKeys = (object: any) => {
+  const validateInputObject = (object: any) => {
     for (const creatableColumn in props.createSettings) {
       if (object.hasOwnProperty(creatableColumn) || !!object[creatableColumn])
         continue

@@ -81,20 +81,22 @@
                           v-bind:key="field"
                           class="my-2"
                       >
-                        <label for="last-name" class="block text-sm font-medium text-gray-700 mt-px pt-2 mb-1">
-                          {{ createSettings[field].label }}
-                        </label>
-                        <div class="mt-1 sm:col-span-2 sm:mt-0">
-                          <ColumnInput
-                              v-if="createSettings[field].type === 'input-text'"
-                              :col-key="createSettings[field].key"
-                              @change="onChange"
-                          />
-                          <ColumnCombobox
-                              v-if="createSettings[field].type === 'search-single'"
-                              :create-settings="createSettings[field]"
-                              @change="onChange"
-                          />
+                        <div v-if="!createSettings[field].staticValue">
+                          <label for="last-name" class="block text-sm font-medium text-gray-700 mt-px pt-2 mb-1">
+                            {{ createSettings[field].label }}
+                          </label>
+                          <div class="mt-1 sm:col-span-2 sm:mt-0">
+                            <ColumnInput
+                                v-if="createSettings[field].type === 'input-text'"
+                                :col-key="createSettings[field].key"
+                                @change="onChange"
+                            />
+                            <ColumnCombobox
+                                v-if="createSettings[field].type === 'search-single'"
+                                :create-settings="createSettings[field]"
+                                @change="onChange"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
