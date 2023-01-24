@@ -19,7 +19,7 @@
         return
       }
 
-      router.push({ path: '/trainings' })
+      router.push({ path: '/users' })
     })
   }
 </script>
