@@ -113,8 +113,13 @@
 
   const validateInputObject = (object: any) => {
     for (const creatableColumn in props.createSettings) {
-      if (object.hasOwnProperty(creatableColumn) || !!object[creatableColumn])
+      if (object.hasOwnProperty(creatableColumn) || !!object[creatableColumn]) {
+        if (object[creatableColumn].display && object[creatableColumn].id !== undefined) {
+          object[creatableColumn] = object[creatableColumn].id
+        }
+
         continue
+      }
 
       return false
     }
